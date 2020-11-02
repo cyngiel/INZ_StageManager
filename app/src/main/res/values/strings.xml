@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">StageManager</string>
+
+    <string-array name="register_spinner_array">
+        <item>Stage</item>
+        <item>FOH</item>
+        <item>Admin</item>
+    </string-array>
+
 </resources>
