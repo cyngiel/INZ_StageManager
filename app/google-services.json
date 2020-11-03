@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "629675060868",
+    "firebase_url": "https://stagemanager-22249.firebaseio.com",
+    "project_id": "stagemanager-22249",
+    "storage_bucket": "stagemanager-22249.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629675060868:android:eef8ce2635b2176e3e9cd1",
+        "android_client_info": {
+          "package_name": "com.example.stagemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629675060868-73v7vomho21m8nvogld6ppjbjr491om2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stagemanager",
+            "certificate_hash": "eea4163bca8fa3a80aaedd96eaf057b726b8edef"
+          }
+        },
+        {
+          "client_id": "629675060868-lv12s6l92mps44ak38155d0cnpur0cp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB4TfwLfRRDRnJivv6uvq6GhVoIPqh8xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629675060868-lv12s6l92mps44ak38155d0cnpur0cp7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
