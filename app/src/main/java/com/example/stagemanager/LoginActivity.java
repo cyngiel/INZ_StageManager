@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 public class LoginActivity extends AppCompatActivity {
 
-    EditText loginEmail, loginPassword;
-    Button loginSignIn, loginSignUp;
+    private TextInputLayout loginEmailLayout, loginPasswordLayout;
+    private Button loginSignIn, loginSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void linkResourcesToFields() {
-        loginEmail = findViewById(R.id.loginEmail);
-        loginPassword = findViewById(R.id.loginPassword);
+        loginEmailLayout = findViewById(R.id.loginEmailLayout);
+        loginPasswordLayout = findViewById(R.id.loginPasswordLayout);
         loginSignIn = findViewById(R.id.loginSignIn);
         loginSignUp = findViewById(R.id.loginSignUp);
     }

@@ -81,6 +81,10 @@ public class RegisterActivity extends AppCompatActivity {
         if (passwordInput.isEmpty()) {
             registerPasswordLayout.setError("Field can't be empty");
             return false;
+        }
+        else if (passwordInput.length() < 5) {
+            registerFullNameLayout.setError("Password too short");
+            return false;
         } else {
             registerPasswordLayout.setError(null);
             return true;
@@ -103,7 +107,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // create user
-
     private void createUser(){
         fAuth.createUserWithEmailAndPassword(registerEmailLayout.getEditText().getText().toString(),registerPasswordLayout.getEditText().getText().toString()).
         addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -111,19 +114,14 @@ public class RegisterActivity extends AppCompatActivity {
             public void onSuccess(AuthResult authResult) {
                 FirebaseUser user = fAuth.getCurrentUser();
                 Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
-                DocumentReference df = fStore.collection("Users").document(user.getUid());
+
                 Map<String, Object> userInfo = new HashMap<>();
                 userInfo.put("FullName", registerFullNameLayout.getEditText().getText().toString());
                 userInfo.put("Email", registerEmailLayout.getEditText().getText().toString());
                 userInfo.put("Password", registerPasswordLayout.getEditText().getText().toString());
                 userInfo.put("userLvl", registerSpinner.getSelectedItem().toString());
 
-                df.set(userInfo).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this, "Failed to Create Doc", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                fStore.collection("users").document("dupa").set(userInfo);
 
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
