@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+
+    <color name="BG">#000000</color>
+    <color name="BG0">#121212</color>
+    <color name="BG1">#212121</color>
+    <color name="BG2">#303030</color>
+    <color name="BG3">#424242</color>
+
+    <color name="primary">#8E67BF</color>
+    <color name="primaryVariant">#3700B3</color>
+    <color name="secondary">#05AC77</color>
+    <color name="accent">#EA2C2C</color>
+    <color name="accent2">#80EA2C2C</color>
+    <color name="onSurface">#ffffff</color>
+    <color name="onSurface2">#80FFFFFF</color>
+
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#424242</color>
+    <color name="colorAccent">#EA2C2C</color>
 </resources>

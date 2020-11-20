@@ -4,10 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/BG0"
     android:orientation="vertical"
-    tools:context=".LoginActivity"
     android:padding="16dp"
-    android:background="@color/BG0">
+    tools:context=".LoginActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/stagefab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@android:drawable/ic_lock_idle_lock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -17,13 +26,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/BG1"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/BG1">
-
-            
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/login_textView2"
@@ -36,59 +43,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/loginEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-
-                android:textColorHint="@color/onSurface2"
-                android:textColor="@color/onSurface"
-                android:textSize="20sp"
-                android:colorAccent="@color/accent"
-
-                android:hint="E-mail"
-                android:inputType="textEmailAddress"
-                app:layout_constraintTop_toBottomOf="@+id/login_textView2"
-                tools:layout_editor_absoluteX="16dp" />
-
-            <EditText
-                android:id="@+id/loginPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-
-                android:textColorHint="@color/onSurface2"
-                android:textColor="@color/onSurface"
-                android:textSize="20sp"
-                android:colorAccent="@color/accent"
-
-                android:hint="Password"
-                android:inputType="textPassword"
-                app:layout_constraintTop_toBottomOf="@+id/loginEmail"
-                tools:layout_editor_absoluteX="16dp" />
-
-            <Button
-                android:id="@+id/loginSignIn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/rounded_corner_orange"
-                android:text="sign in"
-                android:textColor="#FFFFFF"
-                app:layout_constraintTop_toBottomOf="@+id/loginPassword"
-                tools:layout_editor_absoluteX="16dp" />
-
-            <Button
-                android:id="@+id/loginSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="create account"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/rounded_corner_orange2"
-                app:layout_constraintTop_toBottomOf="@+id/loginSignIn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
