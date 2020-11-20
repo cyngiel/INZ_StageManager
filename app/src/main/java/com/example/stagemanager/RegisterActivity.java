@@ -129,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
                         //fStore.collection("Users").add(userInfo);
                         df.set(userInfo);
 
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
