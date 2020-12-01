@@ -145,7 +145,6 @@ public class RegisterActivity extends AppCompatActivity {
 // on start init //////////////////////////////////////////////////////////////
 
     void spinnerInit() {
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.register_spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         registerSpinner.setAdapter(adapter);

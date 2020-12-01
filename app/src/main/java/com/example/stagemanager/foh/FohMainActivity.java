@@ -29,8 +29,7 @@ public class FohMainActivity extends AppCompatActivity {
     }
 
     void floatingButtonListener(){
-        FloatingActionButton fab = findViewById(R.id.fohfab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fohfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fAuth.signOut();

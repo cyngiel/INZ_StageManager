@@ -29,8 +29,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     void floatingButtonListener(){
-        FloatingActionButton fab = findViewById(R.id.adminfab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        adminfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fAuth.signOut();
