@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.stagemanager.DynamicViewsSheetService;
 import com.example.stagemanager.JsonUrlReader;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
@@ -19,11 +23,16 @@ import org.json.JSONObject;
 public class StageCrewMainActivity extends AppCompatActivity {
 
     private FloatingActionButton stagefab;
+    GridLayout stageDynLayout;
+    ProgressBar progressBar1, progressBar2, progressBar3;
+    Button reloadBtn;
+
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
     AsyncTask getJsonTask;
     JSONObject jsonObject;
+    DynamicViewsSheetService dynamicViewsSheetService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +42,47 @@ public class StageCrewMainActivity extends AppCompatActivity {
         getJsonTask = new JsonUrlReader(this).execute();
 
         linkResourcesToFields();
+        setProgressBarVis(true);
         firebaseInit();
         floatingButtonListener();
+
+        reloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dynamicViewsSheetService.setVisibilityAll(true);
+            }
+        });
 
     }
 
     public void returnTaskResult(JSONObject result) {
         jsonObject = result;
+        setProgressBarVis(false);
+        dynamicViewsSheetService = new DynamicViewsSheetService(stageDynLayout, getApplicationContext(), jsonObject);
+        dynamicViewsSheetService.execute();
+    }
+
+    void setProgressBarVis(boolean isVisible) {
+        if(isVisible){
+            progressBar1.setVisibility(View.VISIBLE);
+            progressBar2.setVisibility(View.VISIBLE);
+            progressBar3.setVisibility(View.VISIBLE);
+        }
+        else {
+            progressBar1.setVisibility(View.GONE);
+            progressBar2.setVisibility(View.GONE);
+            progressBar3.setVisibility(View.GONE);
+        }
     }
 
     ////////////// init
     void linkResourcesToFields() {
         stagefab = findViewById(R.id.stagefab);
+        stageDynLayout = findViewById(R.id.stageDynLayout);
+        progressBar1 = findViewById(R.id.stageprogressBar1);
+        progressBar2 = findViewById(R.id.stageprogressBar2);
+        progressBar3 = findViewById(R.id.stageprogressBar3);
+        reloadBtn = findViewById(R.id.stageRldBtn);
     }
 
     void floatingButtonListener() {

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.stagemanager.admin.AdminMainActivity;
 import com.example.stagemanager.foh.FohMainActivity;
 import com.example.stagemanager.stageCrew.StageCrewMainActivity;
+import com.example.stagemanager.stageCrewCeo.StageCrewCeoMainActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -125,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCeoCode)) {
                     Toast.makeText(LoginActivity.this, "Logged as Stage CEO", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
+                    startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
                     finish();
                 } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {
                     Toast.makeText(LoginActivity.this, "Logged as Stage Crew", Toast.LENGTH_SHORT).show();

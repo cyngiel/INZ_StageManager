@@ -36,7 +36,7 @@ public class JsonUrlReader extends AsyncTask<Void, Void, Void> {
     }
 
     private JSONObject readJsonFromUrl() throws IOException, JSONException {
-        InputStream is = new URL("https://script.googleusercontent.com/macros/echo?user_content_key=XA39ZPSjK83hNwY7yqqZBpXRP0dTDRNxR9LfodK3AYDIHEAkFQ1VbV1G7L9nKV1J3WjbzJvxdl09ZIf23kVXLrg40hjuyrzXm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnCmcA004SKi3nBZ46TraySlXx2mS44wT3wWVRVDTTBc_o-nazYKrUb0p8dd_9Lj67vDd_qw96iat&lib=MsYnNGBYgQb8m0AIWczyd_Va-ZRIQ7o7_").openStream();
+        InputStream is = new URL("https://script.googleusercontent.com/macros/echo?user_content_key=RadRWdjhph75IaSTmhszHqDH-0lThODJvuIVa7zyHXRfNgv6Cvj-mNVI9JX_tJIwNUSvYvm_A1w5Rn0b4RycZCiKVHpB-WbDm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnCmcA004SKi3nBZ46TraySlXx2mS44wT3wWVRVDTTBc_o-nazYKrUb0p8dd_9Lj67vDd_qw96iat&lib=MsYnNGBYgQb8m0AIWczyd_Va-ZRIQ7o7_").openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
