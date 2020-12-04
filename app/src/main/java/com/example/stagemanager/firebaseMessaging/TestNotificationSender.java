@@ -13,7 +13,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.stagemanager.MainActivity;
+
 import com.example.stagemanager.R;
 
 import org.json.JSONException;
@@ -46,7 +46,6 @@ public class TestNotificationSender extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // TOPIC = "/topics/userABC"; //topic has to match what the receiver subscribed to
                 TOPIC = "/topics/test";
                 NOTIFICATION_TITLE = edtTitle.getText().toString();
                 NOTIFICATION_MESSAGE = edtMessage.getText().toString();
@@ -84,6 +83,7 @@ public class TestNotificationSender extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(TestNotificationSender.this, "Request error", Toast.LENGTH_LONG).show();
                         Log.i(TAG, "onErrorResponse: Didn't work");
+                        error.printStackTrace();
                     }
                 }){
             @Override

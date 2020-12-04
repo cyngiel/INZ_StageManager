@@ -14,6 +14,7 @@ import com.example.stagemanager.admin.AdminMainActivity;
 import com.example.stagemanager.foh.FohMainActivity;
 import com.example.stagemanager.stageCrew.StageCrewMainActivity;
 import com.example.stagemanager.stageCrewCeo.StageCrewCeoMainActivity;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -96,19 +97,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void loginUser() {
+        Toast.makeText(LoginActivity.this, "dupa login act 99", Toast.LENGTH_SHORT).show();
         fAuth.signInWithEmailAndPassword(loginEmail.getText().toString(), loginPassword.getText().toString()).
                 addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        Toast.makeText(LoginActivity.this, "dupa login act 103", Toast.LENGTH_SHORT).show();
                         checkUserAccessLvl(authResult.getUser().getUid());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(LoginActivity.this, "Failed to Sign in", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LoginActivity.this, "Failed to Sign in", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                }).addOnCanceledListener(new OnCanceledListener() {
+                    @Override
+                    public void onCanceled() {
+                        Toast.makeText(LoginActivity.this, "Failed to Sign in", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     void checkUserAccessLvl(String uid) {
@@ -118,18 +126,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlAdminCode)) {
                     Toast.makeText(LoginActivity.this, "Logged as Admin", Toast.LENGTH_SHORT).show();
+                    GlobalValues.subscribeToTopic = GlobalValues.userLvlAdminCode;
                     startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
                     finish();
                 } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlFohProdCode)) {
                     Toast.makeText(LoginActivity.this, "Logged as FOH / PROD", Toast.LENGTH_SHORT).show();
+                    GlobalValues.subscribeToTopic = GlobalValues.userLvlFohProdCode;
                     startActivity(new Intent(getApplicationContext(), FohMainActivity.class));
                     finish();
                 } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCeoCode)) {
                     Toast.makeText(LoginActivity.this, "Logged as Stage CEO", Toast.LENGTH_SHORT).show();
+                    GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode;
                     startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
                     finish();
                 } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {
                     Toast.makeText(LoginActivity.this, "Logged as Stage Crew", Toast.LENGTH_SHORT).show();
+                    GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCrewCode;
                     startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
                     finish();
                 } else {
