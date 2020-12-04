@@ -17,7 +17,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".stageCrewCeo.StageCrewCeoMainActivity"></activity>
+        <activity android:name=".firebaseMessaging.TestNotificationSender"></activity>
+
+        <service android:name=".firebaseMessaging.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".firebaseMessaging.MyFirebaseMessagingService"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".stageCrewCeo.StageCrewCeoMainActivity" />
         <activity android:name=".stageCrew.StageCrewMainActivity" />
         <activity android:name=".foh.FohMainActivity" />
         <activity android:name=".admin.AdminMainActivity" />

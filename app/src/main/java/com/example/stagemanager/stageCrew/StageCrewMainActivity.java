@@ -14,6 +14,7 @@ import com.example.stagemanager.DynamicViewsSheetService;
 import com.example.stagemanager.JsonUrlReader;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
+import com.example.stagemanager.firebaseMessaging.TestNotificationSender;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,7 +26,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
     private FloatingActionButton stagefab;
     GridLayout stageDynLayout;
     ProgressBar progressBar1, progressBar2, progressBar3;
-    Button reloadBtn;
+    Button reloadBtn, stageNotifyTestBtn;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -50,6 +51,13 @@ public class StageCrewMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dynamicViewsSheetService.setVisibilityAll(true);
+            }
+        });
+
+        stageNotifyTestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), TestNotificationSender.class));
             }
         });
 
@@ -83,6 +91,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
         progressBar2 = findViewById(R.id.stageprogressBar2);
         progressBar3 = findViewById(R.id.stageprogressBar3);
         reloadBtn = findViewById(R.id.stageRldBtn);
+        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
     }
 
     void floatingButtonListener() {

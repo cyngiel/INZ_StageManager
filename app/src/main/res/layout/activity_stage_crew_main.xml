@@ -7,7 +7,7 @@
     android:background="@color/BG0"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".LoginActivity">
+    tools:context=".stageCrew.StageCrewMainActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/stagefab"
@@ -37,6 +37,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/stageNotifyTestBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="go to notify test"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stageDynLayout" />
 
         <GridLayout
             android:id="@+id/stageDynLayout"
