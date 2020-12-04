@@ -65,6 +65,8 @@ public class StageCrewMainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), TestNotificationSender.class));
             }
         });
+
+        FirebaseMessaging.getInstance().subscribeToTopic("test");
     }
 
     public void returnTaskResult(JSONObject result) {

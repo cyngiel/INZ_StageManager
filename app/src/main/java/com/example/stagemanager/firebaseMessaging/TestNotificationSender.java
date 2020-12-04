@@ -27,7 +27,7 @@ public class TestNotificationSender extends AppCompatActivity {
     EditText edtTitle;
     EditText edtMessage;
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
-    final private String serverKey = "AAAAkpuO7oQ:APA91bGQobnVJ6hnaFxCgbdlt8-0AT1Q4IxCKz_-YjMz1IacXQIRgp8AWDFMwl8pwhrNGYLp2zu9-Hvf_KY9Duf3EIfLZ1WrvNOIJ6cOzJLi_-QcBl62IvDxBvbvxg0CcFE8B2QGPU3V";
+    final private String serverKey = "key=" + "AAAAkpuO7oQ:APA91bGQobnVJ6hnaFxCgbdlt8-0AT1Q4IxCKz_-YjMz1IacXQIRgp8AWDFMwl8pwhrNGYLp2zu9-Hvf_KY9Duf3EIfLZ1WrvNOIJ6cOzJLi_-QcBl62IvDxBvbvxg0CcFE8B2QGPU3V";
     final private String contentType = "application/json";
     final String TAG = "NOTIFICATION TAG";
 
@@ -84,6 +84,7 @@ public class TestNotificationSender extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(TestNotificationSender.this, "Request error", Toast.LENGTH_LONG).show();
                         Log.i(TAG, "onErrorResponse: Didn't work");
+                        error.printStackTrace();
                     }
                 }){
             @Override
