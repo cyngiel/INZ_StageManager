@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stagemanager.DynamicViewsSheetService;
@@ -15,9 +17,12 @@ import com.example.stagemanager.JsonUrlReader;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.firebaseMessaging.TestNotificationSender;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
@@ -60,7 +65,6 @@ public class StageCrewMainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), TestNotificationSender.class));
             }
         });
-
     }
 
     public void returnTaskResult(JSONObject result) {

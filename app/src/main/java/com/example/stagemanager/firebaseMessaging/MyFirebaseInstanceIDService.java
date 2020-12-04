@@ -13,7 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "mFirebaseIIDService";
-    private static final String SUBSCRIBE_TO = "userABC";
+    private static final String SUBSCRIBE_TO = "test";
 
     @Override
     public void onTokenRefresh() {
