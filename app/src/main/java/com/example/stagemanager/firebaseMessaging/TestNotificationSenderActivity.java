@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestNotificationSender extends AppCompatActivity {
+public class TestNotificationSenderActivity extends AppCompatActivity {
 
     EditText edtTitle;
     EditText edtMessage;
@@ -81,7 +81,7 @@ public class TestNotificationSender extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TestNotificationSender.this, "Request error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(TestNotificationSenderActivity.this, "Request error", Toast.LENGTH_LONG).show();
                         Log.i(TAG, "onErrorResponse: Didn't work");
                         error.printStackTrace();
                     }
@@ -94,6 +94,6 @@ public class TestNotificationSender extends AppCompatActivity {
                 return params;
             }
         };
-        FcmSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+        FirebaseCloudMessagingSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 }

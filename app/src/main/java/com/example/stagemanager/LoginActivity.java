@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -97,13 +98,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void loginUser() {
-        Toast.makeText(LoginActivity.this, "dupa login act 99", Toast.LENGTH_SHORT).show();
         fAuth.signInWithEmailAndPassword(loginEmail.getText().toString(), loginPassword.getText().toString()).
                 addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(LoginActivity.this, "dupa login act 103", Toast.LENGTH_SHORT).show();
-                        checkUserAccessLvl(authResult.getUser().getUid());
+                        checkUserAccess(authResult.getUser().getUid());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -119,37 +118,45 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    void checkUserAccessLvl(String uid) {
+    void checkUserAccess(String uid) {
         DocumentReference df = fStore.collection("Users").document(uid);
         df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlAdminCode)) {
-                    Toast.makeText(LoginActivity.this, "Logged as Admin", Toast.LENGTH_SHORT).show();
-                    GlobalValues.subscribeToTopic = GlobalValues.userLvlAdminCode;
-                    startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
-                    finish();
-                } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlFohProdCode)) {
-                    Toast.makeText(LoginActivity.this, "Logged as FOH / PROD", Toast.LENGTH_SHORT).show();
-                    GlobalValues.subscribeToTopic = GlobalValues.userLvlFohProdCode;
-                    startActivity(new Intent(getApplicationContext(), FohMainActivity.class));
-                    finish();
-                } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCeoCode)) {
-                    Toast.makeText(LoginActivity.this, "Logged as Stage CEO", Toast.LENGTH_SHORT).show();
-                    GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode;
-                    startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
-                    finish();
-                } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {
-                    Toast.makeText(LoginActivity.this, "Logged as Stage Crew", Toast.LENGTH_SHORT).show();
-                    GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCrewCode;
-                    startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
-                    finish();
-                } else {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    finish();
-                }
+                checkUserAccessLvl(documentSnapshot);
             }
         });
+    }
+
+    private void checkUserAccessLvl(DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlAdminCode)) {
+            Toast.makeText(LoginActivity.this, "Logged as Admin", Toast.LENGTH_SHORT).show();
+            GlobalValues.subscribeToTopic = GlobalValues.userLvlAdminCode;
+            FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
+            startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
+            finish();
+        } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlFohProdCode)) {
+            Toast.makeText(LoginActivity.this, "Logged as FOH / PROD", Toast.LENGTH_SHORT).show();
+            GlobalValues.subscribeToTopic = GlobalValues.userLvlFohProdCode;
+            FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
+            startActivity(new Intent(getApplicationContext(), FohMainActivity.class));
+            finish();
+        } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCeoCode)) {
+            Toast.makeText(LoginActivity.this, "Logged as Stage CEO", Toast.LENGTH_SHORT).show();
+            GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode;
+            FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
+            startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
+            finish();
+        } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {
+            Toast.makeText(LoginActivity.this, "Logged as Stage Crew", Toast.LENGTH_SHORT).show();
+            GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCrewCode;
+            FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
+            startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
     }
 
     void firebaseInit() {
@@ -172,27 +179,7 @@ public class LoginActivity extends AppCompatActivity {
             df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlAdminCode)) {
-                        Toast.makeText(LoginActivity.this, "Logged as Admin", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
-                        finish();
-                    } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlFohProdCode)) {
-                        Toast.makeText(LoginActivity.this, "Logged as FOH", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), FohMainActivity.class));
-                        finish();
-                    } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {
-                        Toast.makeText(LoginActivity.this, "Logged as Stage Crew", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
-                        finish();
-                    } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCeoCode)) {
-                        Toast.makeText(LoginActivity.this, "Logged as Stage CEO", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
-                        finish();
-                    } else {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                    }
-
+                    checkUserAccessLvl(documentSnapshot);
                 }
             });
         }

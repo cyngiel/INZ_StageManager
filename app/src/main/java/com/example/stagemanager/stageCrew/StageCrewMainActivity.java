@@ -7,22 +7,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stagemanager.DynamicViewsSheetService;
+import com.example.stagemanager.GlobalValues;
 import com.example.stagemanager.JsonUrlReader;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
-import com.example.stagemanager.firebaseMessaging.TestNotificationSender;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.stagemanager.firebaseMessaging.FCMonClickListenerSender;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
@@ -31,7 +32,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
     private FloatingActionButton stagefab;
     GridLayout stageDynLayout;
     ProgressBar progressBar1, progressBar2, progressBar3;
-    Button reloadBtn, stageNotifyTestBtn;
+    Button reloadBtn, stageNotifyTestBtn, stageConfirmBtn;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -50,6 +51,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
         linkResourcesToFields();
         setProgressBarVis(true);
         firebaseInit();
+        senderButtonListener();
         floatingButtonListener();
 
         reloadBtn.setOnClickListener(new View.OnClickListener() {
@@ -59,14 +61,32 @@ public class StageCrewMainActivity extends AppCompatActivity {
             }
         });
 
-        stageNotifyTestBtn.setOnClickListener(new View.OnClickListener() {
+        /*stageNotifyTestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), TestNotificationSender.class));
             }
-        });
+        });*/
+    }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("test");
+    private void senderButtonListener() {
+        stageConfirmBtn.setVisibility(View.GONE);
+        final DocumentReference df = fStore.collection("Users").document(fAuth.getUid());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        String name = task.getResult().getString(GlobalValues.fs_fieldName);
+                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender(GlobalValues.userLvlStageCrewCode,"Job done- " + name, "Stage crew job done", getApplicationContext()));
+                        stageConfirmBtn.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+
+
+        }).start();
     }
 
     public void returnTaskResult(JSONObject result) {
@@ -97,7 +117,8 @@ public class StageCrewMainActivity extends AppCompatActivity {
         progressBar2 = findViewById(R.id.stageprogressBar2);
         progressBar3 = findViewById(R.id.stageprogressBar3);
         reloadBtn = findViewById(R.id.stageRldBtn);
-        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
+        stageConfirmBtn = findViewById(R.id.stageConfirmBtn);
+//        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
     }
 
     void floatingButtonListener() {

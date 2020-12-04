@@ -1,25 +1,24 @@
 package com.example.stagemanager.firebaseMessaging;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class FcmSingleton {
-    private  static FcmSingleton instance;
+public class FirebaseCloudMessagingSingleton {
+    private  static FirebaseCloudMessagingSingleton instance;
     private RequestQueue requestQueue;
     private Context ctx;
 
-    private FcmSingleton(Context context) {
+    private FirebaseCloudMessagingSingleton(Context context) {
         ctx = context;
         requestQueue = getRequestQueue();
     }
 
-    public static synchronized FcmSingleton getInstance(Context context) {
+    public static synchronized FirebaseCloudMessagingSingleton getInstance(Context context) {
         if (instance == null) {
-            instance = new FcmSingleton(context);
+            instance = new FirebaseCloudMessagingSingleton(context);
         }
         return instance;
     }
