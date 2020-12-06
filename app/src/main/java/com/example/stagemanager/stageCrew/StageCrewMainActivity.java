@@ -46,7 +46,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_main);
 
-        getJsonTask = new JsonUrlReader(this).execute();
+        getJsonTask = new JsonUrlReader(this, "wykon1").execute();
 
         linkResourcesToFields();
         setProgressBarVis(true);
@@ -79,7 +79,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         String name = task.getResult().getString(GlobalValues.fs_fieldName);
-                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender(GlobalValues.userLvlStageCrewCode,"Job done- " + name, "Stage crew job done", getApplicationContext()));
+                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender("Job done- " + name, "Stage crew job done", getApplicationContext(), GlobalValues.userLvlStageCrewCode, GlobalValues.userLvlStageCeoCode));
                         stageConfirmBtn.setVisibility(View.VISIBLE);
                     }
                 });
@@ -97,12 +97,11 @@ public class StageCrewMainActivity extends AppCompatActivity {
     }
 
     void setProgressBarVis(boolean isVisible) {
-        if(isVisible){
+        if (isVisible) {
             progressBar1.setVisibility(View.VISIBLE);
             progressBar2.setVisibility(View.VISIBLE);
             progressBar3.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             progressBar1.setVisibility(View.GONE);
             progressBar2.setVisibility(View.GONE);
             progressBar3.setVisibility(View.GONE);
@@ -117,7 +116,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
         progressBar2 = findViewById(R.id.stageprogressBar2);
         progressBar3 = findViewById(R.id.stageprogressBar3);
         reloadBtn = findViewById(R.id.stageRldBtn);
-        stageConfirmBtn = findViewById(R.id.stageConfirmBtn);
+        stageConfirmBtn = findViewById(R.id.stageConfirmStageBtn);
 //        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
     }
 

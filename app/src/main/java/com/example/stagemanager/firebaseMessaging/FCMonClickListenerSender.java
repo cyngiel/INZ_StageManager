@@ -3,6 +3,7 @@ package com.example.stagemanager.firebaseMessaging;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -19,24 +20,53 @@ import java.util.Map;
 
 public class FCMonClickListenerSender implements View.OnClickListener {
 
-    String topic, title, message;
+    String topic[], title, message, name;
     Context context;
     String TAG = "fcm";
+    EditText titleEdit, messageEdit;
+    boolean getFromEditText;
 
-    public FCMonClickListenerSender(String topic, String title, String message, Context context) {
-        this.topic = "/topics/" + topic;
+    public FCMonClickListenerSender(String title, String message, Context context, String... topics) {
+        topic = new String[topics.length];
+        for (int i = 0; i < topics.length; i++) {
+            this.topic[i] = "/topics/" + topics[i];
+        }
+
         this.title = title;
         this.message = message;
         this.context = context;
+        getFromEditText = false;
     }
 
-    void send() throws JSONException {
+    public FCMonClickListenerSender(EditText title, EditText message, String name, Context context, String... topics) {
+        topic = new String[topics.length];
+        for (int i = 0; i < topics.length; i++) {
+            this.topic[i] = "/topics/" + topics[i];
+        }
+
+        this.name = name;
+        this.context = context;
+        this.messageEdit = message;
+        this.titleEdit = title;
+
+        getFromEditText = true;
+    }
+
+    void send(int i) throws JSONException {
         JSONObject notification = new JSONObject();
         JSONObject notificationBody = new JSONObject();
-        notificationBody.put("title", title);
-        notificationBody.put("message", message);
 
-        notification.put("to", topic);
+        if (getFromEditText) {
+            notificationBody.put("title", titleEdit.getText().toString());
+            notificationBody.put("message", messageEdit.getText().toString() + "\nFrom: " + name);
+            titleEdit.setText("");
+            messageEdit.setText("");
+        } else {
+            notificationBody.put("title", title);
+            notificationBody.put("message", message);
+        }
+
+        notification.put("to", topic[i]);
         notification.put("data", notificationBody);
 
         sendNotification(notification);
@@ -72,10 +102,12 @@ public class FCMonClickListenerSender implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         try {
-            send();
-            Toast.makeText(context, "Confirmation sent", Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < topic.length; i++) {
+                send(i);
+            }
+            Toast.makeText(context, "message sent", Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
-            Toast.makeText(context, "notification error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "message error", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

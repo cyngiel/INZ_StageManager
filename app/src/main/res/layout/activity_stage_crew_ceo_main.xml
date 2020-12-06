@@ -1,9 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/BG0"
+        android:orientation="vertical"
+        android:padding="16dp"
     tools:context=".stageCrewCeo.StageCrewCeoMainActivity">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/stagefab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@android:drawable/ic_lock_idle_lock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BG1"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/login_textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stage Crew CEO"
+            android:textColor="@color/accent"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:background="@color/BG2"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_textView2">
+
+            <TextView
+                android:id="@+id/textViewstage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-> to STAGE CREW"
+                android:textAlignment="center"
+                android:textColor="@color/onSurface2"
+                android:textStyle="bold|italic"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <Button
+                android:id="@+id/ceoConfirmStageBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corner_orange"
+                android:text="well done"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/textViewstage"
+                tools:layout_editor_absoluteX="8dp" />
+
+            <Button
+                android:id="@+id/ceoNextStageBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corner_orange"
+                android:text="next band..."
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/ceoConfirmStageBtn"
+                tools:layout_editor_absoluteX="8dp" />
+
+            <Button
+                android:id="@+id/ceoAbortStageBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corner_orange2"
+                android:text="!!! emergency !!!"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/ceoNextStageBtn"
+                tools:layout_editor_absoluteX="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:background="@color/BG2"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            tools:layout_editor_absoluteX="16dp">
+
+            <TextView
+                android:id="@+id/textViewstage2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-> to FOH / PROD"
+                android:textAlignment="center"
+                android:textColor="@color/onSurface2"
+                android:textStyle="bold|italic"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="8dp" />
+
+            <Button
+                android:id="@+id/ceoConfirmStageAllBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corner_orange"
+                android:text="Stage crew ready!"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/textViewstage2"
+                tools:layout_editor_absoluteX="8dp" />
+
+            <Button
+                android:id="@+id/ceoAbortStageAllBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corner_orange2"
+                android:text="! Stage crew emergency !"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/ceoConfirmStageAllBtn"
+                tools:layout_editor_absoluteX="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/ceoCustomMsgBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_corner_orange2"
+            android:text="Custom message"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+            tools:layout_editor_absoluteX="16dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
