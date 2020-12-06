@@ -46,7 +46,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_main);
 
-        getJsonTask = new JsonUrlReader(this).execute();
+        getJsonTask = new JsonUrlReader(this, "wykon1").execute();
 
         linkResourcesToFields();
         setProgressBarVis(true);
