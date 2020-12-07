@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">StageManager</string>
 
+    <string name="startTimer">start timer</string>
+    <string name="stopTimer">stop timer</string>
+
     <string-array name="register_spinner_array">
         <item>Stage Crew</item>
         <item>Stage CEO</item>
