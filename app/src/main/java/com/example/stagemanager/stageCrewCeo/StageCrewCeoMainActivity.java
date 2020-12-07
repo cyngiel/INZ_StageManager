@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.stagemanager.DisplaySheetActivity;
 import com.example.stagemanager.GlobalValues;
 import com.example.stagemanager.LoginActivity;
+import com.example.stagemanager.NextBandActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.firebaseMessaging.CustomMessageActivity;
 import com.example.stagemanager.firebaseMessaging.FCMonClickListenerSender;
@@ -114,6 +115,13 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
                 }
 
 
+            }
+        });
+
+        ceoNextStageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), NextBandActivity.class));
             }
         });
     }

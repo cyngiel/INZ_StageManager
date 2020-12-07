@@ -132,28 +132,33 @@ public class LoginActivity extends AppCompatActivity {
         if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlAdminCode)) {
             Toast.makeText(LoginActivity.this, "Logged as Admin", Toast.LENGTH_SHORT).show();
             GlobalValues.subscribeToTopic = GlobalValues.userLvlAdminCode;
+            GlobalValues.isStageCrew = false;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
             startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
             finish();
         } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlFohProdCode)) {
             Toast.makeText(LoginActivity.this, "Logged as FOH / PROD", Toast.LENGTH_SHORT).show();
             GlobalValues.subscribeToTopic = GlobalValues.userLvlFohProdCode;
+            GlobalValues.isStageCrew = false;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
             startActivity(new Intent(getApplicationContext(), FohMainActivity.class));
             finish();
         } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCeoCode)) {
             Toast.makeText(LoginActivity.this, "Logged as Stage CEO", Toast.LENGTH_SHORT).show();
             GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode;
+            GlobalValues.isStageCrew = false;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
             startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
             finish();
         } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {
             Toast.makeText(LoginActivity.this, "Logged as Stage Crew", Toast.LENGTH_SHORT).show();
             GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCrewCode;
+            GlobalValues.isStageCrew = true;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
             startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
             finish();
         } else {
+            GlobalValues.isStageCrew = false;
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }

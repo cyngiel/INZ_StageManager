@@ -6,6 +6,7 @@ public class GlobalValues {
     public static final String userLvlStageCeoCode = "2";
     public static final String userLvlFohProdCode = "1";
     public static final String userLvlAdminCode = "0";
+    public static boolean isStageCrew;
 
     public static String subscribeToTopic;
 
