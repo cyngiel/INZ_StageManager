@@ -46,7 +46,7 @@ public class CustomMessageActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         String name = task.getResult().getString(GlobalValues.fs_fieldName);
-                        customSendBtn.setOnClickListener(new FCMonClickListenerSender(customedtTitle, customedtMessage, name, getApplicationContext(), GlobalValues.getUserLvlCode(customSpinner.getSelectedItem().toString())));
+                        customSendBtn.setOnClickListener(new FCMonClickListenerSender(customedtTitle, customedtMessage, name, getApplicationContext(), customSpinner));
                         customSendBtn.setVisibility(View.VISIBLE);
                     }
                 });

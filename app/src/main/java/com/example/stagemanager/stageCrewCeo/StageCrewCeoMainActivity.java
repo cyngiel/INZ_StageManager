@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.stagemanager.DisplaySheetActivity;
 import com.example.stagemanager.GlobalValues;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
@@ -26,7 +27,7 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
 
     private FloatingActionButton stagefab;
 
-    Button ceoConfirmStageBtn, ceoConfirmStageAllBtn, ceoNextStageBtn, ceoAbortStageBtn, ceoAbortStageAllBtn, ceoCustomMsgBtn;
+    Button ceoConfirmStageBtn, ceoConfirmStageAllBtn, ceoNextStageBtn, ceoAbortStageBtn, ceoAbortStageAllBtn, ceoCustomMsgBtn, ceoDispSheet;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -60,16 +61,16 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     String name = task.getResult().getString(GlobalValues.fs_fieldName);
 
-                        ceoConfirmStageAllBtn.setOnClickListener(new FCMonClickListenerSender("STAGE CREW READY" + name, "CEO- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
+                        ceoConfirmStageAllBtn.setOnClickListener(new FCMonClickListenerSender("STAGE CREW READY", "from- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
                         ceoConfirmStageAllBtn.setVisibility(View.VISIBLE);
 
-                        ceoConfirmStageBtn.setOnClickListener(new FCMonClickListenerSender("STAGE READY" + name, "You can rest now\nCEO- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode));
+                        ceoConfirmStageBtn.setOnClickListener(new FCMonClickListenerSender("STAGE READY", "You can rest now\nCEO- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode));
                         ceoConfirmStageBtn.setVisibility(View.VISIBLE);
 
-                        ceoAbortStageAllBtn.setOnClickListener(new FCMonClickListenerSender("!STAGE CREW EMERGENCY!" + name, "CEO- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
+                        ceoAbortStageAllBtn.setOnClickListener(new FCMonClickListenerSender("!STAGE CREW EMERGENCY!", "from CEO- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
                         ceoAbortStageAllBtn.setVisibility(View.VISIBLE);
 
-                        ceoAbortStageBtn.setOnClickListener(new FCMonClickListenerSender("!STAGE CREW EMERGENCY!" + name, "Crew to the stage ASAP\nCEO- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
+                        ceoAbortStageBtn.setOnClickListener(new FCMonClickListenerSender("!STAGE CREW EMERGENCY!", "Crew to the stage ASAP\nCEO- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
                         ceoAbortStageBtn.setVisibility(View.VISIBLE);
                     }
                 });
@@ -85,6 +86,13 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
             }
         });
 
+        ceoDispSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), DisplaySheetActivity.class));
+            }
+        });
+
     }
 
 
@@ -97,6 +105,7 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
         ceoConfirmStageAllBtn = findViewById(R.id.ceoConfirmStageAllBtn);
         ceoConfirmStageBtn = findViewById(R.id.ceoConfirmStageBtn);
         ceoCustomMsgBtn = findViewById(R.id.ceoCustomMsgBtn);
+        ceoDispSheet = findViewById(R.id.ceoDispSheet);
 //        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
     }
 

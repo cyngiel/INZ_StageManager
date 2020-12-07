@@ -1,4 +1,4 @@
-package com.example.stagemanager;
+package com.example.stagemanager.dynamicViews;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
 
+import com.example.stagemanager.R;
+
 import io.grpc.internal.SharedResourceHolder;
 
-public class DynamicViews {
+public class DynamicView {
     Context context;
 
-    public DynamicViews(Context context) {
+    public DynamicView(Context context) {
         this.context = context;
     }
 

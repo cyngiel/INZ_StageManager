@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -24,6 +25,7 @@ public class FCMonClickListenerSender implements View.OnClickListener {
     Context context;
     String TAG = "fcm";
     EditText titleEdit, messageEdit;
+    Spinner spinner;
     boolean getFromEditText;
 
     public FCMonClickListenerSender(String title, String message, Context context, String... topics) {
@@ -38,16 +40,14 @@ public class FCMonClickListenerSender implements View.OnClickListener {
         getFromEditText = false;
     }
 
-    public FCMonClickListenerSender(EditText title, EditText message, String name, Context context, String... topics) {
-        topic = new String[topics.length];
-        for (int i = 0; i < topics.length; i++) {
-            this.topic[i] = "/topics/" + topics[i];
-        }
-
+    public FCMonClickListenerSender(EditText title, EditText message, String name, Context context, Spinner spinner) {
+        this.spinner = spinner;
         this.name = name;
         this.context = context;
         this.messageEdit = message;
         this.titleEdit = title;
+        topic = new String[1];
+        topic[0] = "";
 
         getFromEditText = true;
     }
@@ -59,6 +59,7 @@ public class FCMonClickListenerSender implements View.OnClickListener {
         if (getFromEditText) {
             notificationBody.put("title", titleEdit.getText().toString());
             notificationBody.put("message", messageEdit.getText().toString() + "\nFrom: " + name);
+            topic[0] = "/topics/" + GlobalValues.getUserLvlCode(spinner.getSelectedItem().toString());
             titleEdit.setText("");
             messageEdit.setText("");
         } else {

@@ -119,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser user = fAuth.getCurrentUser();
-                        Toast.makeText(RegisterActivity.this, "Account Created" + user, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
                         DocumentReference df = fStore.collection("Users").document(user.getUid());
                         Map<String, Object> userInfo = new HashMap<>();
                         userInfo.put("FullName", registerFullName.getText().toString());
@@ -145,7 +145,6 @@ public class RegisterActivity extends AppCompatActivity {
 // on start init //////////////////////////////////////////////////////////////
 
     void spinnerInit() {
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.register_spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         registerSpinner.setAdapter(adapter);

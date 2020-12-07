@@ -1,4 +1,4 @@
-package com.example.stagemanager;
+package com.example.stagemanager.dynamicViews;
 
 import android.content.Context;
 import android.view.View;
@@ -17,7 +17,7 @@ public class DynamicViewsSheetService {
 
     GridLayout layout;
     Context context;
-    DynamicViews dnV;
+    DynamicView dnV;
     JSONObject jsonObject;
 
     ArrayList<TextView> chs, names, micLines;
@@ -50,7 +50,7 @@ public class DynamicViewsSheetService {
     }
 
     private void addNextTaskLabel(final JSONObject jsonObject) throws JSONException {
-        dnV = new DynamicViews(context);
+        dnV = new DynamicView(context);
         TextView chTextView = dnV.chTextView(context, jsonObject.getString("ch"));
         layout.addView(chTextView, 4);
         chs.add(chTextView);
@@ -91,7 +91,10 @@ public class DynamicViewsSheetService {
         dispTasks();
     }
 
-    public void executeUpdate() {
-        dispTasks();
+    public void clearView(){
+        chs.removeAll(chs);
+        names.removeAll(names);
+        micLines.removeAll(micLines);
+        buttons.removeAll(buttons);
     }
 }
