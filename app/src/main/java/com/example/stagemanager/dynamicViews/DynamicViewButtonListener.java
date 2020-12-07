@@ -1,4 +1,4 @@
-package com.example.stagemanager;
+package com.example.stagemanager.dynamicViews;
 
 import android.content.Context;
 import android.view.View;

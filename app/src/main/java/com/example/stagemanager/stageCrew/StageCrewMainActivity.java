@@ -11,9 +11,10 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.stagemanager.DynamicViewsSheetService;
+import com.example.stagemanager.dynamicViews.DynamicViewsSheetService;
 import com.example.stagemanager.GlobalValues;
-import com.example.stagemanager.JsonUrlReader;
+import com.example.stagemanager.urlReader.JsonUrlReader;
+import com.example.stagemanager.urlReader.JsonUrlReaderTaskResults;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.firebaseMessaging.FCMonClickListenerSender;
@@ -27,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
 
-public class StageCrewMainActivity extends AppCompatActivity {
+public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlReaderTaskResults {
 
     private FloatingActionButton stagefab;
     GridLayout stageDynLayout;
@@ -46,7 +47,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_main);
 
-        getJsonTask = new JsonUrlReader(this, "wykon1").execute();
+        getJsonTask = new JsonUrlReader(this, "the erron band").execute();
 
         linkResourcesToFields();
         setProgressBarVis(true);
@@ -79,7 +80,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         String name = task.getResult().getString(GlobalValues.fs_fieldName);
-                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender("Job done- " + name, "Stage crew job done", getApplicationContext(), GlobalValues.userLvlStageCrewCode, GlobalValues.userLvlStageCeoCode));
+                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender("Stage crew job done", "Job done- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode, GlobalValues.userLvlStageCeoCode));
                         stageConfirmBtn.setVisibility(View.VISIBLE);
                     }
                 });
@@ -89,6 +90,7 @@ public class StageCrewMainActivity extends AppCompatActivity {
         }).start();
     }
 
+    @Override
     public void returnTaskResult(JSONObject result) {
         jsonObject = result;
         setProgressBarVis(false);

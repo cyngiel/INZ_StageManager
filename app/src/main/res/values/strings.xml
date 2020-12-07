@@ -8,4 +8,9 @@
         <item>Admin</item>
     </string-array>
 
+    <string-array name="band_names_spinner_array">
+        <item>the erron band</item>
+        <item>tetragonic</item>
+    </string-array>
+
 </resources>

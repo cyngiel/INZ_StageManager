@@ -1,10 +1,6 @@
-package com.example.stagemanager;
+package com.example.stagemanager.urlReader;
 
-import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.example.stagemanager.stageCrew.StageCrewMainActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,12 +15,12 @@ import org.json.JSONObject;
 
 public class JsonUrlReader extends AsyncTask<Void, Void, Void> {
 
-    StageCrewMainActivity parent;
+    JsonUrlReaderTaskResults parent;
     JSONObject jsonObject;
     String arg;
 
-    public JsonUrlReader(Activity parent, String arg) {
-        this.parent = (StageCrewMainActivity)parent;
+    public JsonUrlReader(JsonUrlReaderTaskResults parent, String arg) {
+        this.parent = parent;
         this.arg = arg;
     }
 
