@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stagemanager.GlobalValues;
+import com.example.stagemanager.LineupInfoActivity;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.dynamicViews.DynamicViewsSheetService;
@@ -32,7 +33,7 @@ import org.json.JSONObject;
 
 public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlReaderTaskResults {
 
-    private FloatingActionButton stagefab;
+    private FloatingActionButton stagefab, stagefab2;
     GridLayout stageDynLayout;
     ProgressBar progressBar1, progressBar2, progressBar3;
     Button reloadBtn, stageNotifyTestBtn, stageConfirmBtn;
@@ -127,6 +128,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
     ////////////// init
     void linkResourcesToFields() {
         stagefab = findViewById(R.id.stagefab);
+        stagefab2 = findViewById(R.id.stagefab2);
         stageDynLayout = findViewById(R.id.stageDynLayout);
         progressBar1 = findViewById(R.id.stageprogressBar1);
         progressBar2 = findViewById(R.id.stageprogressBar2);
@@ -144,6 +146,13 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                 fAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
+            }
+        });
+
+        stagefab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), LineupInfoActivity.class));
             }
         });
     }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stagemanager.DisplaySheetActivity;
 import com.example.stagemanager.GlobalValues;
+import com.example.stagemanager.LineupInfoActivity;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.NextBandActivity;
 import com.example.stagemanager.R;
@@ -27,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class StageCrewCeoMainActivity extends AppCompatActivity {
 
-    private FloatingActionButton stagefab;
+    private FloatingActionButton stagefab, stagefab2;
 
     Button ceoConfirmStageBtn, ceoConfirmStageAllBtn, ceoNextStageBtn, ceoAbortStageBtn, ceoAbortStageAllBtn, ceoCustomMsgBtn, ceoDispSheet, ceoTimerBtn;
     Chronometer ceoChronometer;
@@ -139,6 +140,7 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
     ////////////// init
     void linkResourcesToFields() {
         stagefab = findViewById(R.id.stagefab);
+        stagefab2 = findViewById(R.id.stagefab2);
         ceoNextStageBtn = findViewById(R.id.ceoNextStageBtn);
         ceoAbortStageBtn = findViewById(R.id.ceoAbortStageBtn);
         ceoAbortStageAllBtn = findViewById(R.id.ceoAbortStageAllBtn);
@@ -158,6 +160,13 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
                 fAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
+            }
+        });
+
+        stagefab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), LineupInfoActivity.class));
             }
         });
     }
