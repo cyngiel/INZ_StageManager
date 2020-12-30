@@ -26,7 +26,7 @@ public class FCMonClickListenerSender implements View.OnClickListener {
     String TAG = "fcm";
     EditText titleEdit, messageEdit;
     Spinner spinner;
-    boolean getFromEditText;
+    boolean getFromEditText, nextBand;
 
     public FCMonClickListenerSender(String title, String message, Context context, String... topics) {
         topic = new String[topics.length];
@@ -37,7 +37,9 @@ public class FCMonClickListenerSender implements View.OnClickListener {
         this.title = title;
         this.message = message;
         this.context = context;
+
         getFromEditText = false;
+        nextBand = false;
     }
 
     public FCMonClickListenerSender(EditText title, EditText message, String name, Context context, Spinner spinner) {
@@ -50,6 +52,19 @@ public class FCMonClickListenerSender implements View.OnClickListener {
         topic[0] = "";
 
         getFromEditText = true;
+        nextBand = false;
+    }
+
+    public FCMonClickListenerSender(Context context, Spinner spinner, String... topics) {
+        this.spinner = spinner;
+        this.context = context;
+        topic = new String[topics.length];
+        for (int i = 0; i < topics.length; i++) {
+            this.topic[i] = "/topics/" + topics[i];
+        }
+
+        nextBand = true;
+        getFromEditText = false;
     }
 
     void send(int i) throws JSONException {
@@ -62,6 +77,10 @@ public class FCMonClickListenerSender implements View.OnClickListener {
             topic[0] = "/topics/" + GlobalValues.getUserLvlCode(spinner.getSelectedItem().toString());
             titleEdit.setText("");
             messageEdit.setText("");
+        } else if (nextBand) {
+            notificationBody.put("title", "nextband");
+            notificationBody.put("message", spinner.getSelectedItem().toString());
+
         } else {
             notificationBody.put("title", title);
             notificationBody.put("message", message);

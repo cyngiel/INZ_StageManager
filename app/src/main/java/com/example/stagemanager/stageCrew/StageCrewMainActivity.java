@@ -7,17 +7,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.stagemanager.dynamicViews.DynamicViewsSheetService;
 import com.example.stagemanager.GlobalValues;
-import com.example.stagemanager.urlReader.JsonUrlReader;
-import com.example.stagemanager.urlReader.JsonUrlReaderTaskResults;
+import com.example.stagemanager.LineupInfoActivity;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
+import com.example.stagemanager.dynamicViews.DynamicViewsSheetService;
 import com.example.stagemanager.firebaseMessaging.FCMonClickListenerSender;
+import com.example.stagemanager.urlReader.JsonUrlReader;
+import com.example.stagemanager.urlReader.JsonUrlReaderTaskResults;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,10 +33,11 @@ import org.json.JSONObject;
 
 public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlReaderTaskResults {
 
-    private FloatingActionButton stagefab;
+    private FloatingActionButton stagefab, stagefab2;
     GridLayout stageDynLayout;
     ProgressBar progressBar1, progressBar2, progressBar3;
     Button reloadBtn, stageNotifyTestBtn, stageConfirmBtn;
+    TextView ceoWatingText;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -47,13 +51,18 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_main);
 
-        getJsonTask = new JsonUrlReader(this, "the erron band").execute();
-
+        //newJsonTask("the erron band");
         linkResourcesToFields();
         setProgressBarVis(true);
         firebaseInit();
-        senderButtonListener();
+        //senderButtonListener();
         floatingButtonListener();
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            Toast.makeText(StageCrewMainActivity.this, b.getString("name"), Toast.LENGTH_SHORT).show();
+            newJsonTask(b.getString("name"));
+        }
 
         reloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +77,12 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                 startActivity(new Intent(getApplicationContext(), TestNotificationSender.class));
             }
         });*/
+    }
+
+    public void newJsonTask(String name) {
+        ceoWatingText.setVisibility(View.GONE);
+        getJsonTask = new JsonUrlReader(this, name).execute();
+        senderButtonListener();
     }
 
     private void senderButtonListener() {
@@ -113,12 +128,14 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
     ////////////// init
     void linkResourcesToFields() {
         stagefab = findViewById(R.id.stagefab);
+        stagefab2 = findViewById(R.id.stagefab2);
         stageDynLayout = findViewById(R.id.stageDynLayout);
         progressBar1 = findViewById(R.id.stageprogressBar1);
         progressBar2 = findViewById(R.id.stageprogressBar2);
         progressBar3 = findViewById(R.id.stageprogressBar3);
         reloadBtn = findViewById(R.id.stageRldBtn);
         stageConfirmBtn = findViewById(R.id.stageConfirmStageBtn);
+        ceoWatingText = findViewById(R.id.ceoWatingText);
 //        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
     }
 
@@ -129,6 +146,13 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                 fAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
+            }
+        });
+
+        stagefab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), LineupInfoActivity.class));
             }
         });
     }

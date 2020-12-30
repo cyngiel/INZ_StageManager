@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stagemanager.DisplaySheetActivity;
 import com.example.stagemanager.GlobalValues;
+import com.example.stagemanager.LineupInfoActivity;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.firebaseMessaging.CustomMessageActivity;
@@ -24,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FohMainActivity extends AppCompatActivity {
 
-    private FloatingActionButton fohfab;
+    private FloatingActionButton fohfab, fohfab2;
     private Button fohConfirmFohAllBtn, fohAbortAllBtn, fohCustomMsgBtn, fohDispSheet;
 
     FirebaseAuth fAuth;
@@ -85,8 +86,7 @@ public class FohMainActivity extends AppCompatActivity {
 
 
     void floatingButtonListener() {
-        FloatingActionButton fab = findViewById(R.id.fohfab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fohfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fAuth.signOut();
@@ -94,10 +94,18 @@ public class FohMainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        fohfab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), LineupInfoActivity.class));
+            }
+        });
     }
 
     void linkResourcesToFields() {
         fohfab = findViewById(R.id.fohfab);
+        fohfab2 = findViewById(R.id.fohfab2);
         fohCustomMsgBtn = findViewById(R.id.fohCustomMsgBtn);
         fohAbortAllBtn = findViewById(R.id.fohAbortAllBtn);
         fohConfirmFohAllBtn = findViewById(R.id.fohConfirmFohAllBtn);

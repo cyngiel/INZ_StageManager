@@ -1,16 +1,26 @@
 <resources>
     <string name="app_name">StageManager</string>
 
+    <string name="startTimer">start timer</string>
+    <string name="stopTimer">stop timer</string>
+
     <string-array name="register_spinner_array">
         <item>Stage Crew</item>
         <item>Stage CEO</item>
         <item>FOH / PROD</item>
-        <item>Admin</item>
     </string-array>
 
     <string-array name="band_names_spinner_array">
         <item>the erron band</item>
         <item>tetragonic</item>
+    </string-array>
+
+    <string-array name="lineup_day_spinner_array">
+        <item>Select day</item>
+        <item>Friday</item>
+        <item>Saturday am</item>
+        <item>Saturday pm</item>
+        <item>Sunday</item>
     </string-array>
 
 </resources>

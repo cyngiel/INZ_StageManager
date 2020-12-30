@@ -18,6 +18,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/stagefab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
@@ -49,13 +58,25 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_editor_absoluteX="16dp" />
 
+        <TextView
+            android:id="@+id/ceoWatingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Waiting for CEO to send input the list"
+            android:textAlignment="center"
+            android:textColor="@color/accent2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/login_textView2"
+            tools:layout_editor_absoluteX="16dp" />
+
         <ScrollView
             android:id="@+id/scrollView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/stageConfirmStageBtn"
-            app:layout_constraintTop_toBottomOf="@+id/login_textView2"
+            app:layout_constraintTop_toBottomOf="@+id/ceoWatingText"
             tools:layout_editor_absoluteX="16dp">
 
             <LinearLayout
