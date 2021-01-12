@@ -17,6 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".stageCrewCeo.StageCrewCeoHomeActivity"></activity>
+        <activity android:name=".CreateEventActivity" />
         <activity android:name=".LineupInfoActivity" />
         <activity android:name=".NextBandActivity" />
         <activity android:name=".DisplaySheetActivity" />
@@ -45,10 +47,11 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

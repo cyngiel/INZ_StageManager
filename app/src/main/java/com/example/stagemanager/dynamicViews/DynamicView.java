@@ -7,11 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
-
 import com.example.stagemanager.R;
-
-import io.grpc.internal.SharedResourceHolder;
 
 public class DynamicView {
     Context context;
@@ -43,7 +39,7 @@ public class DynamicView {
         return textView;
     }
 
-    public TextView micLineTextView(Context context, String text){
+    public TextView micLineTextView(Context context, String text) {
         final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final TextView textView = new TextView((context));
         textView.setLayoutParams(lparams);
