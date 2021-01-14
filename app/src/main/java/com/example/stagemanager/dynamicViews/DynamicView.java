@@ -64,4 +64,18 @@ public class DynamicView {
         return button;
     }
 
+    public Button removeButton(Context context) {
+        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final Button button = new Button((context));
+        button.setLayoutParams(lparams);
+        button.setTextSize(20);
+        button.setTextColor(Color.BLACK);
+        button.setMaxEms(8);
+        button.setText("remove");
+        button.setBackground(context.getDrawable(R.drawable.rounded_corner_orange));
+        button.setScaleX(0.7f);
+        button.setScaleY(0.6f);
+        return button;
+    }
+
 }

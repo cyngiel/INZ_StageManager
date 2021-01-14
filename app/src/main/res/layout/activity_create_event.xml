@@ -139,14 +139,56 @@
                 app:srcCompat="@android:drawable/ic_input_add" />
 
             <GridLayout
-                android:id="@+id/createGridLayout"
+                android:id="@+id/createGridLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
+                android:layout_height="wrap_content"
+
+                android:columnCount="2"
+                android:background="@color/BG2"
+                android:useDefaultMargins="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/createFab">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:text="delete"
+                    android:padding="4dp"
+                    android:background="@color/BG3"
+                    android:textAlignment="center"
+                    android:textColor="@color/onSurface2" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_columnWeight="5"
+                    android:padding="4dp"
+                    android:text="e-mail"
+                    android:background="@color/BG3"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/onSurface2" />
+
+            </GridLayout>
+
+            <GridLayout
+                android:id="@+id/createGridLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:columnCount="2"
+                android:background="@color/BG3"
+                android:padding="4dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/createGridLayout2">
 
             </GridLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
