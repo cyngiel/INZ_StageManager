@@ -163,7 +163,11 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
     private void openEvent(String id) {
         GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode + id;
         FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
-        startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
+        Intent intent = new Intent(getApplicationContext(), StageCrewCeoMainActivity.class);
+        Bundle b = new Bundle();
+        b.putString("id", id);
+        intent.putExtras(b);
+        startActivity(intent);
         //Toast.makeText(StageCrewCeoHomeActivity.this, "opening: " + id , Toast.LENGTH_SHORT).show();
     }
 

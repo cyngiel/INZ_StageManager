@@ -46,7 +46,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String userEmail;
+    String userEmail, id;
 
     AsyncTask getJsonTask;
     JSONObject jsonObject;
@@ -69,7 +69,8 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
             //Toast.makeText(StageCrewMainActivity.this, b.getString("name"), Toast.LENGTH_SHORT).show();
             //newJsonTask(b.getString("name")); old version
             userEmail = b.getString("userEmail");
-            newJsonTaskFromDB(b.getString("name"));
+            id = b.getString("name");
+            newJsonTaskFromDB(id);
         }
 
         reloadBtn.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +140,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         String name = task.getResult().getString(GlobalValues.fs_fieldName);
-                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender("Stage crew job done", "Job done- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode, GlobalValues.userLvlStageCeoCode));
+                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender("Stage crew job done", "Job done- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode + id, GlobalValues.userLvlStageCeoCode + id));
                         stageConfirmBtn.setVisibility(View.VISIBLE);
                     }
                 });

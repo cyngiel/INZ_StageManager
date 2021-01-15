@@ -37,11 +37,19 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_ceo_main);
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            //Toast.makeText(StageCrewMainActivity.this, b.getString("name"), Toast.LENGTH_SHORT).show();
+            //newJsonTask(b.getString("name")); old version
+            id = b.getString("id");
+        }
 
         linkResourcesToFields();
         firebaseInit();
@@ -70,7 +78,7 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
                         ceoConfirmStageAllBtn.setOnClickListener(new FCMonClickListenerSender("STAGE CREW READY", "from- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
                         ceoConfirmStageAllBtn.setVisibility(View.VISIBLE);
 
-                        ceoConfirmStageBtn.setOnClickListener(new FCMonClickListenerSender("STAGE READY", "You can rest now\nCEO- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode));
+                        ceoConfirmStageBtn.setOnClickListener(new FCMonClickListenerSender("STAGE READY", "You can rest now\nCEO- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode + id));
                         ceoConfirmStageBtn.setVisibility(View.VISIBLE);
 
                         ceoAbortStageAllBtn.setOnClickListener(new FCMonClickListenerSender("!STAGE CREW EMERGENCY!", "from CEO- " + name, getApplicationContext(), GlobalValues.userLvlFohProdCode));
@@ -122,7 +130,12 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
         ceoNextStageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), NextBandActivity.class));
+                //startActivity(new Intent(getApplicationContext(), NextBandActivity.class)); //old version
+                Intent intent = new Intent(getApplicationContext(), AssignTaskActivity.class);
+                Bundle b = new Bundle();
+                b.putString("id", id);
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
     }
