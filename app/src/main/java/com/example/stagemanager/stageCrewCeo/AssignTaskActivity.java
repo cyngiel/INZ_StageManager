@@ -33,7 +33,7 @@ import java.util.List;
 public class AssignTaskActivity extends AppCompatActivity implements EditParticipantDialog.EditParticipantDialogListener{
 
     GridLayout assaignGrid;
-    ProgressBar progressBar1, progressBar2, progressBar3;
+    ProgressBar progressBar1, progressBar2, progressBar3, progressBar4;
 
     AsyncTask getJsonTask;
     JSONObject jsonObject;
@@ -60,7 +60,7 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
             newJsonTaskFromDB(id);
         }
 
-        getEvent(id);
+        //getEvent(id);
 
     }
 
@@ -128,10 +128,12 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
             progressBar1.setVisibility(View.VISIBLE);
             progressBar2.setVisibility(View.VISIBLE);
             progressBar3.setVisibility(View.VISIBLE);
+            progressBar4.setVisibility(View.VISIBLE);
         } else {
             progressBar1.setVisibility(View.GONE);
             progressBar2.setVisibility(View.GONE);
             progressBar3.setVisibility(View.GONE);
+            progressBar4.setVisibility(View.GONE);
         }
     }
 
@@ -139,6 +141,7 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
         progressBar1 = findViewById(R.id.assignProgressBar1);
         progressBar2 = findViewById(R.id.assignProgressBar2);
         progressBar3 = findViewById(R.id.assignProgressBar3);
+        progressBar4 = findViewById(R.id.assignProgressBar4);
         assaignGrid = findViewById(R.id.assaignGrid);
     }
 
@@ -150,7 +153,7 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
     @Override
     public void updateView() {
         assaignGrid.removeAllViews();
-        getEvent(id);
+        newJsonTaskFromDB(id);
     }
 
 }

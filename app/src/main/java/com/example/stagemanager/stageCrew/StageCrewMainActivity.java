@@ -1,6 +1,7 @@
 package com.example.stagemanager.stageCrew;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -57,6 +58,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_main);
 
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //newJsonTask("the erron band");
         linkResourcesToFields();
         setProgressBarVis(true);

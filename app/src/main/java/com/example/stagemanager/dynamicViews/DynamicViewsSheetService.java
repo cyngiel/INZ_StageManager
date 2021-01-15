@@ -112,15 +112,15 @@ public class DynamicViewsSheetService {
 
         final String ch = jsonObject.getString("ch");
         TextView chTextView = dnV.chTextView(context, ch);
-        layout.addView(chTextView, 4);
+        layout.addView(chTextView, 0);
         chs.add(chTextView);
 
         TextView nameTextView = dnV.nameTextView(context, jsonObject.getString("name"));
-        layout.addView(nameTextView, 5);
+        layout.addView(nameTextView, 1);
         names.add(nameTextView);
 
         TextView micTextView = dnV.chTextView(context, jsonObject.getString("user"));
-        layout.addView(micTextView, 6);
+        layout.addView(micTextView, 2);
         micLines.add(micTextView);
 
         Button button = dnV.editButton(context);
@@ -131,7 +131,7 @@ public class DynamicViewsSheetService {
                 EditParticipantDialog.show(fragmentManager, "EditParticipantDialog");
             }
         });
-        layout.addView(button, 7);
+        layout.addView(button, 3);
         buttons.add(button);
 
     }

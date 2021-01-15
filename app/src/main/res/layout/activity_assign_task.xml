@@ -52,51 +52,6 @@ tools:context=".stageCrewCeo.AssignTaskActivity">
                 android:scrollbarAlwaysDrawHorizontalTrack="false"
                 android:scrollbarAlwaysDrawVerticalTrack="true">
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="ch"
-                    android:textAlignment="center"
-                    android:textColor="@color/onSurface2"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="name"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/onSurface2"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
-
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="user"
-                    android:textAlignment="center"
-                    android:textColor="@color/onSurface2"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="assaign"
-                    android:textAlignment="center"
-                    android:textColor="@color/onSurface2"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
-
                 <ProgressBar
                     android:id="@+id/assignProgressBar1"
                     style="?android:attr/progressBarStyleLarge"
@@ -111,6 +66,12 @@ tools:context=".stageCrewCeo.AssignTaskActivity">
 
                 <ProgressBar
                     android:id="@+id/assignProgressBar3"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ProgressBar
+                    android:id="@+id/assignProgressBar4"
                     style="?android:attr/progressBarStyleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

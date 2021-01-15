@@ -98,6 +98,7 @@ public class EditParticipantDialog extends AppCompatDialogFragment {
         this.emails = (ArrayList<String>) emails;
 
        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerArray);
+       editSpinner.setAdapter(adapter);
     }
 
     void getFromBase(){
