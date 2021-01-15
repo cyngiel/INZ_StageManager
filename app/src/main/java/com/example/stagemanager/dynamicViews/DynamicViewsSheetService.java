@@ -38,6 +38,7 @@ public class DynamicViewsSheetService {
         try {
             JSONArray array = jsonObject.getJSONArray("data");
             if (array.length() > 0) {
+                Toast.makeText(context, Integer.toString(array.length()), Toast.LENGTH_SHORT).show();
                 for (int i = array.length() - 1; i >= 0; i--) {
                     addNextTaskLabel(array.getJSONObject(i));
                 }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stagemanager.admin.AdminMainActivity;
 import com.example.stagemanager.foh.FohMainActivity;
+import com.example.stagemanager.stageCrew.StageCrewHomeActivity;
 import com.example.stagemanager.stageCrew.StageCrewMainActivity;
 import com.example.stagemanager.stageCrewCeo.StageCrewCeoHomeActivity;
 import com.example.stagemanager.stageCrewCeo.StageCrewCeoMainActivity;
@@ -156,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
             GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCrewCode;
             GlobalValues.isStageCrew = true;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
-            startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
+            startActivity(new Intent(getApplicationContext(), StageCrewHomeActivity.class));
             finish();
         } else {
             GlobalValues.isStageCrew = false;

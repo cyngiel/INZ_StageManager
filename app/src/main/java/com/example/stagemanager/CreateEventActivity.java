@@ -1,9 +1,8 @@
 package com.example.stagemanager;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,37 +12,65 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.stagemanager.dynamicViews.DynamicView;
 import com.example.stagemanager.dynamicViews.DynamicViewButtonListener;
+import com.example.stagemanager.stageCrew.StageCrewHomeActivity;
+import com.example.stagemanager.stageCrewCeo.StageCrewCeoHomeActivity;
+import com.example.stagemanager.urlReader.JsonPathUrlReader;
+import com.example.stagemanager.urlReader.JsonUrlReader;
+import com.example.stagemanager.urlReader.JsonUrlReaderTaskResults;
+import com.example.stagemanager.urlReader.ListRow;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateEventActivity extends AppCompatActivity implements AddParticipantDialog.AddParticipantDialogListener {
+public class CreateEventActivity extends AppCompatActivity implements AddParticipantDialog.AddParticipantDialogListener, JsonUrlReaderTaskResults {
 
-    private EditText createName;
+    private EditText createName, createUrl;
     private DatePickerDialog datePickerDialog;
     private Calendar calendar;
     private Button createTextDate, createBtn;
     private FloatingActionButton createFab;
     private GridLayout createGridLayout;
     DynamicView dnv;
+    int eventsSize;
 
+    AsyncTask getJsonTask;
     private ArrayList<String> emails;
     FirebaseFirestore fStore;
+    String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            //Toast.makeText(StageCrewMainActivity.this, b.getString("name"), Toast.LENGTH_SHORT).show();
+            //newJsonTask(b.getString("name")); old version
+            userEmail = b.getString("userEmail");
+        }
 
         linkResourcesToFields();
         floatingButtonListener();
@@ -60,21 +87,59 @@ public class CreateEventActivity extends AppCompatActivity implements AddPartici
 
     }
 
-    private void writeToBase(int i){
-        i += 1;
-        DocumentReference df = fStore.collection("Events").document(Integer.toString(i));
+    private ArrayList<ListRow> jsonToArray(JSONObject jsonObject) throws JSONException {
+        ArrayList<ListRow> list = new ArrayList<>();
+        JSONArray array = jsonObject.getJSONArray("data");
+        JSONObject tempObject;
 
-        Map<Object, Object> info = new HashMap<>();
-        info.put("date", createTextDate.getText().toString());
-        info.put("inputlist", emails);
-        info.put("name", createName.getText().toString());
-        info.put("users", emails);
-        df.set(info);
+        for (int i = array.length() - 1; i >= 0; i--) {
+            tempObject = array.getJSONObject(i);
 
-        Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
+            String ch = tempObject.getString("ch");
+            String name = tempObject.getString("name");
+            String micline = tempObject.getString("micline");
+
+            list.add(new ListRow(ch, name, micline));
+        }
+
+        return list;
     }
 
-    private void connectToBase(){
+    private void writeToBase(int i, JSONObject jsonObject) throws JSONException {
+        DocumentReference df = fStore.collection("Events").document(Integer.toString(i));
+
+        emails.add(userEmail);
+
+        ArrayList<ListRow> list = jsonToArray(jsonObject);
+
+        Map<Object, Object> info = new HashMap<>();
+        info.put("name", createName.getText().toString());
+        info.put("date", createTextDate.getText().toString());
+        info.put("inputlist", list);
+        info.put("users", emails);
+         df.set(info).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(CreateEventActivity.this, "Event Created", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), StageCrewCeoHomeActivity.class));
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CreateEventActivity.this, "failed to create event, DB error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void writeToBase(boolean i) {
+
+        Toast.makeText(CreateEventActivity.this, "Ops, failed to create event", Toast.LENGTH_SHORT).show();
+    }
+
+    private void connectToBase() {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,11 +147,18 @@ public class CreateEventActivity extends AppCompatActivity implements AddPartici
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         int i = task.getResult().size();
-                        writeToBase(i);
+                        eventsSize = i;
+                        getJson();
                     }
                 });
             }
         }).start();
+
+    }
+
+    private void getJson(){
+        String path = "https://script.google.com/macros/s/AKfycby8sDbdO4cgHdU7kayugGoavU2CoSxdzOsqW5rWEnsfsvXPtrz8r3mh/exec?theArg=" + createUrl.getText();
+        getJsonTask = new JsonPathUrlReader(CreateEventActivity.this, path).execute();
     }
 
     private void openDialog() {
@@ -121,6 +193,7 @@ public class CreateEventActivity extends AppCompatActivity implements AddPartici
         createGridLayout = findViewById(R.id.createGridLayout);
         createFab = findViewById(R.id.createFab);
         createBtn = findViewById(R.id.createBtn);
+        createUrl = findViewById(R.id.createUrl);
     }
 
     private void datePickerInit() {
@@ -148,10 +221,19 @@ public class CreateEventActivity extends AppCompatActivity implements AddPartici
         createFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               openDialog();
+                openDialog();
             }
         });
 
     }
 
+    @Override
+    public void returnTaskResult(JSONObject result) {
+        try {
+            writeToBase(eventsSize, result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            writeToBase(false);
+        }
+    }
 }

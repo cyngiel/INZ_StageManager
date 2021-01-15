@@ -7,16 +7,7 @@ android:layout_height="match_parent"
 android:background="@color/BG0"
 android:orientation="vertical"
 android:padding="16dp"
-tools:context=".stageCrewCeo.StageCrewCeoHomeActivity">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/stagefab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@android:drawable/ic_lock_idle_lock"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+tools:context=".stageCrew.StageCrewHomeActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/constraintLayout"
@@ -28,12 +19,20 @@ tools:context=".stageCrewCeo.StageCrewCeoHomeActivity">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/stagefab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@android:drawable/ic_lock_idle_lock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/custom_textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stage Crew CEO"
+        android:text="Stage Crew"
         android:textAlignment="center"
         android:textColor="@color/accent"
         android:textSize="36sp"
@@ -64,16 +63,6 @@ tools:context=".stageCrewCeo.StageCrewCeoHomeActivity">
         app:layout_constraintTop_toBottomOf="@+id/custom_textView3">
 
 
-        <Button
-            android:id="@+id/ceoHomeCreateBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner_orange2"
-            android:text="create  event"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 
         <GridLayout
             android:id="@+id/createGridLayout2"
@@ -81,22 +70,12 @@ tools:context=".stageCrewCeo.StageCrewCeoHomeActivity">
             android:layout_height="wrap_content"
 
             android:background="@color/BG2"
-            android:columnCount="2"
+            android:columnCount="1"
             android:useDefaultMargins="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ceoHomeCreateBtn">
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:background="@color/BG3"
-                android:padding="4dp"
-                android:text="delete"
-                android:textAlignment="center"
-                android:textColor="@color/onSurface2" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -105,7 +84,7 @@ tools:context=".stageCrewCeo.StageCrewCeoHomeActivity">
                 android:layout_columnWeight="5"
                 android:background="@color/BG3"
                 android:padding="4dp"
-                android:text="date | name"
+                android:text="your events"
                 android:textAlignment="textStart"
                 android:textColor="@color/onSurface2" />
 
@@ -113,10 +92,10 @@ tools:context=".stageCrewCeo.StageCrewCeoHomeActivity">
 
 
         <GridLayout
-            android:id="@+id/createEventList"
+            android:id="@+id/stageEventList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
+            android:columnCount="1"
             android:layout_marginTop="4dp"
             android:background="@color/BG3"
             app:layout_constraintTop_toBottomOf="@+id/createGridLayout2"/>

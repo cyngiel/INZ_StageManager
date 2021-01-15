@@ -1,4 +1,4 @@
-package com.example.stagemanager.stageCrewCeo;
+package com.example.stagemanager.stageCrew;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,15 +10,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.stagemanager.CreateEventActivity;
 import com.example.stagemanager.GlobalValues;
-import com.example.stagemanager.LineupInfoActivity;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.dynamicViews.DynamicView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,10 +27,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 
-public class StageCrewCeoHomeActivity extends AppCompatActivity {
+public class StageCrewHomeActivity extends AppCompatActivity {
 
-    private Button ceoHomeCreateBtn;
-    GridLayout createEventList;
+    GridLayout stageEventList;
     DynamicView dnV;
     FloatingActionButton stagefab;
 
@@ -44,26 +40,13 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stage_crew_ceo_home);
+        setContentView(R.layout.activity_stage_crew_home);
 
         firebaseInit();
+        stageEventList = findViewById(R.id.stageEventList);
         stagefab = findViewById(R.id.stagefab);
         floatingButtonListener();
-        ceoHomeCreateBtn = findViewById(R.id.ceoHomeCreateBtn);
-        createEventList = findViewById(R.id.createEventList);
         checkEvents();
-        ceoHomeCreateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
-                Bundle b = new Bundle();
-                b.putString("userEmail", userEmail);
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
-
     }
 
     private void checkEvents() {
@@ -86,7 +69,7 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(StageCrewCeoHomeActivity.this, "Your email nope", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StageCrewHomeActivity.this, "Your email nope", Toast.LENGTH_SHORT).show();
                             }
                         });
                         //getUserEvents(i);
@@ -97,9 +80,9 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void getUserEvents(int size){
+    private void getUserEvents(int size) {
         DocumentReference df;
-        if(size > 0) {
+        if (size > 0) {
             for (int i = 0; i < size; i++) {
                 df = getEvent(i);
                 addNextEvent(df);
@@ -108,7 +91,7 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
 
     }
 
-    private DocumentReference getEvent(int id){
+    private DocumentReference getEvent(int id) {
         DocumentReference df = fStore.collection("Events").document(Integer.toString(id));
         return df;
     }
@@ -130,15 +113,6 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
                             String date = task.getResult().getString("date");
                             String name = date + " | " + task.getResult().getString("name");
 
-                            Button removeButton = dnV.removeButton(getApplicationContext());
-                            removeButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    removeEvent(df.getId());
-                                }
-                            });
-                            createEventList.addView(removeButton, 0);
-
                             Button event = dnV.eventButton(getApplicationContext(), name);
                             event.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -147,7 +121,7 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
                                 }
                             });
 
-                            createEventList.addView(event, 1);
+                            stageEventList.addView(event, 0);
                         }
                     }
 
@@ -161,25 +135,20 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
     }
 
     private void openEvent(String id) {
-        GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode + id;
+        GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCrewCode + id;
         FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
-        startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
+
+        Intent intent = new Intent(getApplicationContext(), StageCrewMainActivity.class);
+        Bundle b = new Bundle();
+        b.putString("userEmail", userEmail);
+        b.putString("name", id);
+        intent.putExtras(b);
+        startActivity(intent);
         //Toast.makeText(StageCrewCeoHomeActivity.this, "opening: " + id , Toast.LENGTH_SHORT).show();
     }
 
-    void removeEvent(String id){
-        fStore.collection("Events").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                createEventList.removeAllViews();
-                checkEvents();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(StageCrewCeoHomeActivity.this, "deleting error", Toast.LENGTH_SHORT).show();
-            }
-        });
+    void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     void firebaseInit() {
@@ -198,9 +167,4 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
         });
 
     }
-
-    void setUserEmail(String userEmail){
-        this.userEmail = userEmail;
-    }
-
 }
