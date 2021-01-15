@@ -1,8 +1,10 @@
 package com.example.stagemanager.stageCrewCeo;
 
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -30,7 +32,7 @@ import java.util.List;
 
 public class AssignTaskActivity extends AppCompatActivity implements EditParticipantDialog.EditParticipantDialogListener{
 
-    GridLayout stageDynLayout;
+    GridLayout assaignGrid;
     ProgressBar progressBar1, progressBar2, progressBar3;
 
     AsyncTask getJsonTask;
@@ -48,14 +50,17 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_task);
 
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        firebaseInit();
+        linkResourcesToFields();
+
         Bundle b = getIntent().getExtras();
         if (b != null) {
             id = b.getString("id");
+            newJsonTaskFromDB(id);
         }
 
-        linkResourcesToFields();
         getEvent(id);
-
 
     }
 
@@ -114,7 +119,7 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
     private void returnTaskResult(JSONObject result) {
         jsonObject = result;
         setProgressBarVis(false);
-        dynamicViewsSheetService = new DynamicViewsSheetService(stageDynLayout, getApplicationContext(), jsonObject, getSupportFragmentManager(), id);
+        dynamicViewsSheetService = new DynamicViewsSheetService(assaignGrid, getApplicationContext(), jsonObject, getSupportFragmentManager(), id);
         dynamicViewsSheetService.executeExtended();
     }
 
@@ -131,6 +136,10 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
     }
 
     private void linkResourcesToFields() {
+        progressBar1 = findViewById(R.id.assignProgressBar1);
+        progressBar2 = findViewById(R.id.assignProgressBar2);
+        progressBar3 = findViewById(R.id.assignProgressBar3);
+        assaignGrid = findViewById(R.id.assaignGrid);
     }
 
     void firebaseInit() {
@@ -140,7 +149,8 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
 
     @Override
     public void updateView() {
-        stageDynLayout.removeAllViews();
+        assaignGrid.removeAllViews();
         getEvent(id);
     }
+
 }

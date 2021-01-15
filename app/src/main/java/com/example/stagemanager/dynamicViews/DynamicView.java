@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.stagemanager.R;
@@ -104,6 +105,15 @@ public class DynamicView {
         button.setScaleX(0.7f);
         button.setScaleY(0.6f);
         return button;
+    }
+
+    public Spinner editSpinner(Context context){
+        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final Spinner spinner = new Spinner((context));
+        spinner.setLayoutParams(lparams);
+        spinner.setBackground(context.getDrawable(R.drawable.rounded_corner_spinner));
+        spinner.setLayoutMode(Spinner.MODE_DIALOG);
+        return spinner;
     }
 
 }

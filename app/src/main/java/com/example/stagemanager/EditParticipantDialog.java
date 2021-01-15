@@ -7,23 +7,42 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class EditParticipantDialog extends AppCompatDialogFragment {
 
     private EditText addEmailDialog;
     private EditParticipantDialog.EditParticipantDialogListener listener;
 
-    String documentID;
-    int ch;
+    private Spinner editSpinner;
+    Context context;
 
-    public EditParticipantDialog(String documentID, int ch) {
-        this.documentID = documentID;
+    String id;
+    int ch;
+    ArrayList<String> emails;
+
+    FirebaseFirestore fStore;
+
+    public EditParticipantDialog(String documentID, int ch, Context context) {
+        this.id = documentID;
         this.ch = ch;
+        this.context = context;
     }
 
     @Override
@@ -43,7 +62,12 @@ public class EditParticipantDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.add_participant_dialog, null);
+        View view = inflater.inflate(R.layout.edit_participant_dialog, null);
+
+        editSpinner = view.findViewById(R.id.editSpinner);
+        fStore = FirebaseFirestore.getInstance();
+
+        getFromBase();
 
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -66,6 +90,33 @@ public class EditParticipantDialog extends AppCompatDialogFragment {
 
     void writeToBase(){
 
+    }
+
+    void getUsers(List<String> emails){
+
+        final List<String> spinnerArray = emails;
+        this.emails = (ArrayList<String>) emails;
+
+       ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerArray);
+    }
+
+    void getFromBase(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                fStore.collection("Events").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        List<String> users = (List<String>) task.getResult().get("users");
+
+                        getUsers(users);
+                    }
+                });
+            }
+
+
+        }).start();
     }
 
     public interface EditParticipantDialogListener{

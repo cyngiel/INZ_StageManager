@@ -119,23 +119,19 @@ public class DynamicViewsSheetService {
         layout.addView(nameTextView, 5);
         names.add(nameTextView);
 
-        TextView micTextView = dnV.chTextView(context, jsonObject.getString("micline"));
+        TextView micTextView = dnV.chTextView(context, jsonObject.getString("user"));
         layout.addView(micTextView, 6);
-        micLines.add(micTextView);
-
-        nameTextView = dnV.chTextView(context, jsonObject.getString("user"));
-        layout.addView(micTextView, 7);
         micLines.add(micTextView);
 
         Button button = dnV.editButton(context);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditParticipantDialog EditParticipantDialog = new EditParticipantDialog(documentID, i);
+                EditParticipantDialog EditParticipantDialog = new EditParticipantDialog(documentID, i, context);
                 EditParticipantDialog.show(fragmentManager, "EditParticipantDialog");
             }
         });
-        layout.addView(button, 8);
+        layout.addView(button, 7);
         buttons.add(button);
 
     }
