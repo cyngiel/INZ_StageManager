@@ -7,7 +7,7 @@
     android:background="@color/BG0"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".CreateEventActivity">
+    tools:context=".event.CreateEventActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"

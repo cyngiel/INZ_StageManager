@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode;
             GlobalValues.isStageCrew = false;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(GlobalValues.userLvlStageCrewCode);
             startActivity(new Intent(getApplicationContext(), StageCrewCeoHomeActivity.class));
             finish();
         } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {

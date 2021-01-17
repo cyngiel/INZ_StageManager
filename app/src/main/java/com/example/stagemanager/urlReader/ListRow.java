@@ -16,6 +16,17 @@ public class ListRow {
         this.user = "none";
     }
 
+    public ListRow(String ch, String name, String micline, String user) {
+        /*row = new HashMap<>();
+        row.put("ch", ch);
+        row.put("name", name);
+        row.put("mic", mic);*/
+        this.ch = ch;
+        this.micline = micline;
+        this.name = name;
+        this.user = user;
+    }
+
     public String getCh() {
         return ch;
     }

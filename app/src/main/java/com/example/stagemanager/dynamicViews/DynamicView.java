@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -80,7 +81,22 @@ public class DynamicView {
     }
 
     public Button eventButton(Context context, String text) {
-        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final RelativeLayout.LayoutParams lparams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        final Button button = new Button((context));
+        button.setLayoutParams(lparams);
+        button.setTextSize(20);
+        button.setTextColor(Color.BLACK);
+        button.setMaxEms(10);
+        button.setText(text);
+        button.setBackground(context.getDrawable(R.drawable.rounded_corner_orange));
+        button.setScaleX(0.8f);
+        button.setScaleY(0.7f);
+        return button;
+    }
+
+    public Button eventButtonWide(Context context, String text) {
+        RelativeLayout.LayoutParams lparams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lparams.setMargins(0, 8, 0, 8);
         final Button button = new Button((context));
         button.setLayoutParams(lparams);
         button.setTextSize(20);
@@ -88,8 +104,6 @@ public class DynamicView {
         button.setMaxEms(8);
         button.setText(text);
         button.setBackground(context.getDrawable(R.drawable.rounded_corner_orange));
-        button.setScaleX(0.7f);
-        button.setScaleY(0.6f);
         return button;
     }
 
@@ -100,7 +114,7 @@ public class DynamicView {
         button.setTextSize(20);
         button.setTextColor(Color.BLACK);
         button.setMaxEms(8);
-        button.setText("edit");
+        button.setText("assign");
         button.setBackground(context.getDrawable(R.drawable.rounded_corner_orange));
         button.setScaleX(0.7f);
         button.setScaleY(0.6f);

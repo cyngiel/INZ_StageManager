@@ -62,7 +62,7 @@
             android:id="@+id/ceoWatingText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Waiting for CEO to send input the list"
+            android:text="Your tasks:"
             android:textAlignment="center"
             android:textColor="@color/accent2"
             android:textSize="18sp"

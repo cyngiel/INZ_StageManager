@@ -14,6 +14,7 @@ import com.example.stagemanager.GlobalValues;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.dynamicViews.DynamicView;
+import com.example.stagemanager.stageCrewCeo.StageCrewCeoHomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +32,7 @@ public class StageCrewHomeActivity extends AppCompatActivity {
 
     GridLayout stageEventList;
     DynamicView dnV;
-    FloatingActionButton stagefab;
+    FloatingActionButton stagefab, refreshFab;
 
     String userEmail;
     FirebaseAuth fAuth;
@@ -45,6 +46,7 @@ public class StageCrewHomeActivity extends AppCompatActivity {
         firebaseInit();
         stageEventList = findViewById(R.id.stageEventList);
         stagefab = findViewById(R.id.stagefab);
+        refreshFab = findViewById(R.id.refreshFab);
         floatingButtonListener();
         checkEvents();
     }
@@ -113,7 +115,7 @@ public class StageCrewHomeActivity extends AppCompatActivity {
                             String date = task.getResult().getString("date");
                             String name = date + " | " + task.getResult().getString("name");
 
-                            Button event = dnV.eventButton(getApplicationContext(), name);
+                            Button event = dnV.eventButtonWide(getApplicationContext(), name);
                             event.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -141,7 +143,7 @@ public class StageCrewHomeActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), StageCrewMainActivity.class);
         Bundle b = new Bundle();
         b.putString("userEmail", userEmail);
-        b.putString("name", id);
+        b.putString("id", id);
         intent.putExtras(b);
         startActivity(intent);
         //Toast.makeText(StageCrewCeoHomeActivity.this, "opening: " + id , Toast.LENGTH_SHORT).show();
@@ -166,5 +168,15 @@ public class StageCrewHomeActivity extends AppCompatActivity {
             }
         });
 
+        refreshFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stageEventList.removeAllViews();
+                checkEvents();
+                Toast.makeText(StageCrewHomeActivity.this, "Events refreshed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
 }

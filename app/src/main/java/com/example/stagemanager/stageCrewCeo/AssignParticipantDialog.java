@@ -1,4 +1,4 @@
-package com.example.stagemanager;
+package com.example.stagemanager.stageCrewCeo;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -16,19 +15,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.example.stagemanager.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class EditParticipantDialog extends AppCompatDialogFragment {
+public class AssignParticipantDialog extends AppCompatDialogFragment {
 
     private EditText addEmailDialog;
-    private EditParticipantDialog.EditParticipantDialogListener listener;
+    private AssignParticipantDialog.EditParticipantDialogListener listener;
 
     private Spinner editSpinner;
     Context context;
@@ -39,7 +38,7 @@ public class EditParticipantDialog extends AppCompatDialogFragment {
 
     FirebaseFirestore fStore;
 
-    public EditParticipantDialog(String documentID, int ch, Context context) {
+    public AssignParticipantDialog(String documentID, int ch, Context context) {
         this.id = documentID;
         this.ch = ch;
         this.context = context;
@@ -50,7 +49,7 @@ public class EditParticipantDialog extends AppCompatDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (EditParticipantDialog.EditParticipantDialogListener) context;
+            listener = (AssignParticipantDialog.EditParticipantDialogListener) context;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +79,7 @@ public class EditParticipantDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         writeToBase();
-                        listener.updateView();
+                        listener.updateView(id, ch, editSpinner.getSelectedItem().toString());
                     }
                 });
 
@@ -121,6 +120,6 @@ public class EditParticipantDialog extends AppCompatDialogFragment {
     }
 
     public interface EditParticipantDialogListener{
-        void updateView();
+        void updateView(String id, int ch, String user);
     }
 }

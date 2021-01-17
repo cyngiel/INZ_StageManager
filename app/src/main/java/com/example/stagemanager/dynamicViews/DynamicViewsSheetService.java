@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.example.stagemanager.EditParticipantDialog;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +56,6 @@ public class DynamicViewsSheetService {
         try {
             JSONArray array = jsonObject.getJSONArray("data");
             if (array.length() > 0) {
-                Toast.makeText(context, Integer.toString(array.length()), Toast.LENGTH_SHORT).show();
                 for (int i = array.length() - 1; i >= 0; i--) {
                     addNextTaskLabel(array.getJSONObject(i));
                 }
@@ -74,7 +71,6 @@ public class DynamicViewsSheetService {
         try {
             JSONArray array = jsonObject.getJSONArray("data");
             if (array.length() > 0) {
-                Toast.makeText(context, Integer.toString(array.length()), Toast.LENGTH_SHORT).show();
                 for (int i = array.length() - 1; i >= 0; i--) {
                     addNextTaskLabelExtended(array.getJSONObject(i), i);
                 }
@@ -119,19 +115,17 @@ public class DynamicViewsSheetService {
         layout.addView(nameTextView, 1);
         names.add(nameTextView);
 
-        TextView micTextView = dnV.chTextView(context, jsonObject.getString("user"));
+        TextView micTextView = dnV.chTextView(context, jsonObject.getString("micline"));
         layout.addView(micTextView, 2);
         micLines.add(micTextView);
 
+        micTextView = dnV.chTextView(context, jsonObject.getString("user"));
+        layout.addView(micTextView, 3);
+        micLines.add(micTextView);
+
         Button button = dnV.editButton(context);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditParticipantDialog EditParticipantDialog = new EditParticipantDialog(documentID, i, context);
-                EditParticipantDialog.show(fragmentManager, "EditParticipantDialog");
-            }
-        });
-        layout.addView(button, 3);
+        button.setOnClickListener(new DynamicViewEditTaskButtonListener(documentID, i, context, fragmentManager));
+        layout.addView(button, 4);
         buttons.add(button);
 
     }

@@ -4,7 +4,6 @@ import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -12,11 +11,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.stagemanager.AddParticipantDialog;
-import com.example.stagemanager.EditParticipantDialog;
 import com.example.stagemanager.R;
 import com.example.stagemanager.dynamicViews.DynamicViewsSheetService;
+import com.example.stagemanager.urlReader.ListRow;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AssignTaskActivity extends AppCompatActivity implements EditParticipantDialog.EditParticipantDialogListener{
+public class AssignTaskActivity extends AppCompatActivity implements AssignParticipantDialog.EditParticipantDialogListener{
 
     GridLayout assaignGrid;
     ProgressBar progressBar1, progressBar2, progressBar3, progressBar4;
@@ -151,9 +151,87 @@ public class AssignTaskActivity extends AppCompatActivity implements EditPartici
     }
 
     @Override
-    public void updateView() {
+    public void updateView(final String documentID, final int chID, final String userID) {
         assaignGrid.removeAllViews();
+
+        fStore.collection("Events").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                List<HashMap<String, String>> list = (List<HashMap<String, String>>) task.getResult().get("inputlist");
+
+                JSONArray array = new JSONArray();
+                try {
+
+                    for (int i = 0; i < list.size(); i++) {
+                        String ch = Integer.toString(i + 1);
+                        String name = list.get(i).get("name");
+                        String mic = list.get(i).get("micline");
+                        String user;
+                        if(chID == i)
+                            user = userID;
+                        else
+                            user = list.get(i).get("user");
+                        JSONObject js = new JSONObject();
+                        js.put("ch", ch);
+                        js.put("name", name);
+                        js.put("micline", mic);
+                        js.put("user", user);
+
+                        array.put(js);
+                    }
+
+                    JSONObject jsonObject = new JSONObject();
+
+                    jsonObject.put("data", array);
+
+                    writeToBase(documentID, jsonObject);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(AssignTaskActivity.this, "loading inputlist failed", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    private void writeToBase(String id, JSONObject jsonObject) throws JSONException {
+
+        ArrayList<ListRow> list = jsonToArray(jsonObject);
+
+
+        fStore.collection("Events").document(id).update("inputlist", list).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(AssignTaskActivity.this, "task assigned", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AssignTaskActivity.this, "failed to assign task, DB error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         newJsonTaskFromDB(id);
+    }
+
+    private ArrayList<ListRow> jsonToArray(JSONObject jsonObject) throws JSONException {
+        ArrayList<ListRow> list = new ArrayList<>();
+        JSONArray array = jsonObject.getJSONArray("data");
+        JSONObject tempObject;
+
+        for (int i = 0; i < array.length(); i++) {
+            tempObject = array.getJSONObject(i);
+
+            String ch = tempObject.getString("ch");
+            String name = tempObject.getString("name");
+            String micline = tempObject.getString("micline");
+            String user = tempObject.getString("user");
+
+            list.add(new ListRow(ch, name, micline, user));
+        }
+
+        return list;
     }
 
 }

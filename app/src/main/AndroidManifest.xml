@@ -17,10 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".stageCrewCeo.AssignTaskActivity"></activity>
+        <activity android:name=".event.EditEventActivity"></activity>
+        <activity android:name=".stageCrewCeo.AssignTaskActivity" />
         <activity android:name=".stageCrew.StageCrewHomeActivity" />
         <activity android:name=".stageCrewCeo.StageCrewCeoHomeActivity" />
-        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".event.CreateEventActivity" />
         <activity android:name=".LineupInfoActivity" />
         <activity android:name=".NextBandActivity" />
         <activity android:name=".DisplaySheetActivity" />

@@ -1,6 +1,7 @@
 package com.example.stagemanager.stageCrewCeo;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.stagemanager.CreateEventActivity;
+import com.example.stagemanager.event.CreateEventActivity;
 import com.example.stagemanager.GlobalValues;
-import com.example.stagemanager.LineupInfoActivity;
 import com.example.stagemanager.LoginActivity;
 import com.example.stagemanager.R;
 import com.example.stagemanager.dynamicViews.DynamicView;
@@ -35,7 +35,7 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
     private Button ceoHomeCreateBtn;
     GridLayout createEventList;
     DynamicView dnV;
-    FloatingActionButton stagefab;
+    FloatingActionButton stagefab, refreshFab;
 
     String userEmail;
     FirebaseAuth fAuth;
@@ -45,9 +45,11 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_ceo_home);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         firebaseInit();
         stagefab = findViewById(R.id.stagefab);
+        refreshFab = findViewById(R.id.refreshFab);
         floatingButtonListener();
         ceoHomeCreateBtn = findViewById(R.id.ceoHomeCreateBtn);
         createEventList = findViewById(R.id.createEventList);
@@ -97,9 +99,9 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void getUserEvents(int size){
+    private void getUserEvents(int size) {
         DocumentReference df;
-        if(size > 0) {
+        if (size > 0) {
             for (int i = 0; i < size; i++) {
                 df = getEvent(i);
                 addNextEvent(df);
@@ -108,7 +110,7 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
 
     }
 
-    private DocumentReference getEvent(int id){
+    private DocumentReference getEvent(int id) {
         DocumentReference df = fStore.collection("Events").document(Integer.toString(id));
         return df;
     }
@@ -166,12 +168,13 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), StageCrewCeoMainActivity.class);
         Bundle b = new Bundle();
         b.putString("id", id);
+        b.putString("userEmail", userEmail);
         intent.putExtras(b);
         startActivity(intent);
         //Toast.makeText(StageCrewCeoHomeActivity.this, "opening: " + id , Toast.LENGTH_SHORT).show();
     }
 
-    void removeEvent(String id){
+    void removeEvent(String id) {
         fStore.collection("Events").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -201,9 +204,17 @@ public class StageCrewCeoHomeActivity extends AppCompatActivity {
             }
         });
 
+        refreshFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createEventList.removeAllViews();
+                checkEvents();
+            }
+        });
+
     }
 
-    void setUserEmail(String userEmail){
+    void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
 

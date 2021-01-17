@@ -1,5 +1,6 @@
 package com.example.stagemanager.stageCrew;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +73,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
             //Toast.makeText(StageCrewMainActivity.this, b.getString("name"), Toast.LENGTH_SHORT).show();
             //newJsonTask(b.getString("name")); old version
             userEmail = b.getString("userEmail");
-            id = b.getString("name");
+            id = b.getString("id");
             newJsonTaskFromDB(id);
         }
 
@@ -124,6 +126,8 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
 
             }
         });
+
+        senderButtonListener();
     }
 
     public void newJsonTask(String name) {
@@ -186,6 +190,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
 //        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
     }
 
+    @SuppressLint("RestrictedApi")
     void floatingButtonListener() {
         stagefab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,10 +207,18 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                 startActivity(new Intent(getApplicationContext(), LineupInfoActivity.class));
             }
         });
+
+        stagefab2.setVisibility(View.GONE);
     }
 
     void firebaseInit() {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(GlobalValues.subscribeToTopic);
     }
 }
