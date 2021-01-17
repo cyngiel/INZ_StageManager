@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stagemanager.admin.AdminMainActivity;
 import com.example.stagemanager.foh.FohMainActivity;
+import com.example.stagemanager.stageCrew.StageCrewHomeActivity;
 import com.example.stagemanager.stageCrew.StageCrewMainActivity;
+import com.example.stagemanager.stageCrewCeo.StageCrewCeoHomeActivity;
 import com.example.stagemanager.stageCrewCeo.StageCrewCeoMainActivity;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -148,14 +150,15 @@ public class LoginActivity extends AppCompatActivity {
             GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCeoCode;
             GlobalValues.isStageCrew = false;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
-            startActivity(new Intent(getApplicationContext(), StageCrewCeoMainActivity.class));
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(GlobalValues.userLvlStageCrewCode);
+            startActivity(new Intent(getApplicationContext(), StageCrewCeoHomeActivity.class));
             finish();
         } else if (documentSnapshot.getString("userLvl").equals(GlobalValues.userLvlStageCrewCode)) {
             Toast.makeText(LoginActivity.this, "Logged as Stage Crew", Toast.LENGTH_SHORT).show();
             GlobalValues.subscribeToTopic = GlobalValues.userLvlStageCrewCode;
             GlobalValues.isStageCrew = true;
             FirebaseMessaging.getInstance().subscribeToTopic(GlobalValues.subscribeToTopic);
-            startActivity(new Intent(getApplicationContext(), StageCrewMainActivity.class));
+            startActivity(new Intent(getApplicationContext(), StageCrewHomeActivity.class));
             finish();
         } else {
             GlobalValues.isStageCrew = false;

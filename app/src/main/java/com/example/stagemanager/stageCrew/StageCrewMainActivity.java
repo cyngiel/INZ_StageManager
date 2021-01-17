@@ -1,6 +1,8 @@
 package com.example.stagemanager.stageCrew;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -28,8 +30,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlReaderTaskResults {
 
@@ -41,6 +49,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    String userEmail, id;
 
     AsyncTask getJsonTask;
     JSONObject jsonObject;
@@ -51,6 +60,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stage_crew_main);
 
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //newJsonTask("the erron band");
         linkResourcesToFields();
         setProgressBarVis(true);
@@ -60,8 +70,11 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            Toast.makeText(StageCrewMainActivity.this, b.getString("name"), Toast.LENGTH_SHORT).show();
-            newJsonTask(b.getString("name"));
+            //Toast.makeText(StageCrewMainActivity.this, b.getString("name"), Toast.LENGTH_SHORT).show();
+            //newJsonTask(b.getString("name")); old version
+            userEmail = b.getString("userEmail");
+            id = b.getString("id");
+            newJsonTaskFromDB(id);
         }
 
         reloadBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +90,44 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                 startActivity(new Intent(getApplicationContext(), TestNotificationSender.class));
             }
         });*/
+    }
+
+    private void newJsonTaskFromDB(String name) {
+        fStore.collection("Events").document(name).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                List<HashMap<String, String>> list = (List<HashMap<String, String>>) task.getResult().get("inputlist");
+
+                JSONArray array = new JSONArray();
+                try {
+
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).get("user").equals(userEmail)) {
+                            String ch = Integer.toString(i + 1);
+                            String name = list.get(i).get("name");
+                            String mic = list.get(i).get("micline");
+                            JSONObject js = new JSONObject();
+                            js.put("ch", ch);
+                            js.put("name", name);
+                            js.put("micline", mic);
+
+                            array.put(js);
+                        }
+                    }
+
+                    JSONObject jsonObject = new JSONObject();
+
+                    jsonObject.put("data", array);
+                    returnTaskResult(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(StageCrewMainActivity.this, "loading inputlist failed", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        senderButtonListener();
     }
 
     public void newJsonTask(String name) {
@@ -95,7 +146,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         String name = task.getResult().getString(GlobalValues.fs_fieldName);
-                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender("Stage crew job done", "Job done- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode, GlobalValues.userLvlStageCeoCode));
+                        stageConfirmBtn.setOnClickListener(new FCMonClickListenerSender("Stage crew job done", "Job done- " + name, getApplicationContext(), GlobalValues.userLvlStageCrewCode + id, GlobalValues.userLvlStageCeoCode + id));
                         stageConfirmBtn.setVisibility(View.VISIBLE);
                     }
                 });
@@ -139,6 +190,7 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
 //        stageNotifyTestBtn = findViewById(R.id.stageNotifyTestBtn);
     }
 
+    @SuppressLint("RestrictedApi")
     void floatingButtonListener() {
         stagefab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,10 +207,18 @@ public class StageCrewMainActivity extends AppCompatActivity implements JsonUrlR
                 startActivity(new Intent(getApplicationContext(), LineupInfoActivity.class));
             }
         });
+
+        stagefab2.setVisibility(View.GONE);
     }
 
     void firebaseInit() {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(GlobalValues.subscribeToTopic);
     }
 }

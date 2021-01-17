@@ -140,7 +140,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corner_orange"
-                    android:text="next band..."
+                    android:text="Assign tasks"
                     android:textStyle="bold" />
 
             </LinearLayout>
