@@ -67,6 +67,21 @@ public class DynamicViewsSheetService {
         }
     }
 
+    private void dispTasksMinus() {
+        try {
+            JSONArray array = jsonObject.getJSONArray("data");
+            if (array.length() > 0) {
+                for (int i = array.length() - 1; i >= 0; i--) {
+                    addNextTaskLabelMinus(array.getJSONObject(i));
+                }
+            } else
+                Toast.makeText(context, "There is no tasks", Toast.LENGTH_SHORT).show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void dispTasksExtended() {
         try {
             JSONArray array = jsonObject.getJSONArray("data");
@@ -100,6 +115,22 @@ public class DynamicViewsSheetService {
         button.setOnClickListener(new DynamicViewButtonListener(chTextView, nameTextView, micTextView, button));
         layout.addView(button, 7);
         buttons.add(button);
+
+    }
+
+    private void addNextTaskLabelMinus(final JSONObject jsonObject) throws JSONException {
+        dnV = new DynamicView(context);
+        TextView chTextView = dnV.chTextView(context, jsonObject.getString("ch"));
+        layout.addView(chTextView, 3);
+        chs.add(chTextView);
+
+        TextView nameTextView = dnV.nameTextView(context, jsonObject.getString("name"));
+        layout.addView(nameTextView, 4);
+        names.add(nameTextView);
+
+        TextView micTextView = dnV.chTextView(context, jsonObject.getString("micline"));
+        layout.addView(micTextView, 5);
+        micLines.add(micTextView);
 
     }
 
@@ -149,6 +180,10 @@ public class DynamicViewsSheetService {
 
     public void execute() {
         dispTasks();
+    }
+
+    public void executeMinus() {
+        dispTasksMinus();
     }
 
     public void executeExtended() {

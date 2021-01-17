@@ -11,6 +11,7 @@ import android.widget.Chronometer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.stagemanager.DisplayListActivity;
 import com.example.stagemanager.DisplaySheetActivity;
 import com.example.stagemanager.GlobalValues;
 import com.example.stagemanager.LoginActivity;
@@ -106,10 +107,13 @@ public class StageCrewCeoMainActivity extends AppCompatActivity {
         ceoDispSheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), DisplaySheetActivity.class));
+                Intent intent = new Intent(getApplicationContext(), DisplayListActivity.class);
+                Bundle b = new Bundle();
+                b.putString("id", id);
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
-        ceoDispSheet.setVisibility(View.GONE);
 
         ceoTimerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
