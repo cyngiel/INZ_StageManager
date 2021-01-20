@@ -48,7 +48,7 @@ tools:context=".stageCrewCeo.AssignTaskActivity">
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@color/BG2"
-                android:columnCount="4"
+                android:columnCount="5"
                 android:scrollbarAlwaysDrawHorizontalTrack="false"
                 android:scrollbarAlwaysDrawVerticalTrack="true">
 
