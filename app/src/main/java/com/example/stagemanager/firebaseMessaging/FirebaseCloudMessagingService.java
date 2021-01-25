@@ -55,9 +55,8 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
         try {
             if (GlobalValues.isStageCrew && remoteMessage.getData().get("title").equalsIgnoreCase("nextband")) {
 
-                // Create an Intent for the activity you want to start
                 Intent resultIntent = new Intent(this, StageCrewMainActivity.class);
-                // Create the TaskStackBuilder and add the intent, which inflates the back stack
+
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
                 Bundle b = new Bundle();
@@ -66,7 +65,6 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
 
                 stackBuilder.addNextIntentWithParentStack(resultIntent);
 
-                // Get the PendingIntent containing the entire back stack
                 PendingIntent resultPendingIntent =
                         stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -98,7 +96,7 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
                     .setSound(notificationSoundUri);
             //.setContentIntent(pendingIntent);
         }
-        //Set notification color to match your app color template
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setColor(getResources().getColor(R.color.colorPrimaryDark));
         }

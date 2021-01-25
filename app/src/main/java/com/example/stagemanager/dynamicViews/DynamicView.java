@@ -67,7 +67,8 @@ public class DynamicView {
     }
 
     public Button removeButton(Context context) {
-        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                                        ViewGroup.LayoutParams.WRAP_CONTENT);
         final Button button = new Button((context));
         button.setLayoutParams(lparams);
         button.setTextSize(20);
